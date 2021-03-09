@@ -55,13 +55,14 @@ final class AuthManager {
             return
         }
         
-        request.setValue("Basic ", forHTTPHeaderField: "Authorization")
-        let task = URLSession.shared.dataTask(with: request) { data, _, error in
+        request.setValue("Basic \(base64String)", forHTTPHeaderField: "Authorization")
+        let task = URLSession.shared.dataTask(with: request) { [weak self] data, _, error in
             guard let data = data else { return }
             
             do {
-                let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
-                print(json)
+                let result = try JSONDecoder().decode(AuthResponse.self, from: data)
+                self?.chacheToken(result: result)
+                
                 completion(true)
             }
             catch {
@@ -76,7 +77,7 @@ final class AuthManager {
         
     }
     
-    private func chacheToken() {
+    private func chacheToken(result: AuthResponse) {
     
     }
     
