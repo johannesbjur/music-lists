@@ -31,6 +31,29 @@ final class AuthManager {
         
         return URL(string: string)
     }
+
+    var isSignedIn: Bool {
+        return accessToken != nil
+    }
+
+    private var accessToken: String? {
+        return UserDefaults.standard.string(forKey: "access_token")
+    }
+
+    private var refreshToken: String? {
+        return UserDefaults.standard.string(forKey: "refresh_token")
+    }
+
+    private var tokenExpirationDate: Date? {
+        return UserDefaults.standard.object(forKey: "expiration") as? Date
+    }
+
+    private var shouldRefreshToken: Bool {
+        guard let expirationDate = tokenExpirationDate else { return false }
+        let fiveMinutes: TimeInterval = 300
+        let currentDate = Date()
+        return currentDate.addingTimeInterval(fiveMinutes) >= expirationDate
+    }
         
     public func exangeCodeForToken(code: String, completion: @escaping ((Bool) -> Void)) {
         guard let url = tokenApiURL else { return }
@@ -73,12 +96,14 @@ final class AuthManager {
         task.resume()
     }
     
-    private func refreshToken() {
+    private func refreshAccessToken() {
         
     }
     
     private func chacheToken(result: AuthResponse) {
-    
+        UserDefaults.standard.setValue(result.access_token, forKey: "access_token")
+        UserDefaults.standard.setValue(result.refresh_token, forKey: "refresh_token")
+        UserDefaults.standard.setValue(Date().addingTimeInterval(TimeInterval(result.expires_in)), forKey: "expiration")
     }
     
 }

@@ -13,4 +13,5 @@ struct AuthResponse: Codable {
     let expires_in: Int
     let refresh_token: String
     let scope: String
+    let token_type: String
 }

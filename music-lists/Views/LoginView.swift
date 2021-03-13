@@ -9,8 +9,6 @@ import SwiftUI
 
 struct LoginView: View {
     
-    @State private var isShowingAuthView = false
-    
     var body: some View {
         ZStack {
             Color("black")
@@ -21,12 +19,9 @@ struct LoginView: View {
                     .foregroundColor(.white)
                     .padding()
                 
-                NavigationLink(destination: AuthWebView(), isActive: $isShowingAuthView) { EmptyView() }
-                
-                Button {
-                    isShowingAuthView = true
-                    
-                } label: {
+                NavigationLink(
+                    destination: AuthWebView()
+                ) {
                     Text("Sign in with Spotify")
                         .frame(width: 280, height: 50)
                         .background(Color("green"))
