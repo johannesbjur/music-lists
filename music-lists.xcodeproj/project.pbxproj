@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8C70554225FD3A5F00754B3C /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C70554125FD3A5E00754B3C /* HomeView.swift */; };
 		8CD8D11E25F7A532004B0C36 /* music_listsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CD8D11D25F7A532004B0C36 /* music_listsApp.swift */; };
 		8CD8D12025F7A532004B0C36 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CD8D11F25F7A532004B0C36 /* ContentView.swift */; };
 		8CD8D12225F7A534004B0C36 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8CD8D12125F7A534004B0C36 /* Assets.xcassets */; };
@@ -18,6 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8C70554125FD3A5E00754B3C /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		8CD8D11A25F7A532004B0C36 /* music-lists.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "music-lists.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8CD8D11D25F7A532004B0C36 /* music_listsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = music_listsApp.swift; sourceTree = "<group>"; };
 		8CD8D11F25F7A532004B0C36 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -93,6 +95,7 @@
 				8CD8D11F25F7A532004B0C36 /* ContentView.swift */,
 				8CD8D13425F7A5B9004B0C36 /* AuthWebView.swift */,
 				8CD8D13825F7A5EA004B0C36 /* LoginView.swift */,
+				8C70554125FD3A5E00754B3C /* HomeView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -175,6 +178,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8CD8D12025F7A532004B0C36 /* ContentView.swift in Sources */,
+				8C70554225FD3A5F00754B3C /* HomeView.swift in Sources */,
 				8CD8D13025F7A584004B0C36 /* AuthManager.swift in Sources */,
 				8CD8D11E25F7A532004B0C36 /* music_listsApp.swift in Sources */,
 				8CD8D13925F7A5EA004B0C36 /* LoginView.swift in Sources */,

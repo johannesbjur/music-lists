@@ -9,6 +9,11 @@ import SwiftUI
 
 @main
 struct music_listsApp: App {
+
+    init() {
+        UINavigationBar.appearance().largeTitleTextAttributes = [.foregroundColor: UIColor.white]
+    }
+
     var body: some Scene {
         WindowGroup {
             ContentView()
