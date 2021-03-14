@@ -58,7 +58,6 @@ struct AuthWebView: UIViewRepresentable {
             AuthManager.shared.exangeCodeForToken(code: code) { success in
                 print("Login success: \(success)")
                 self.parent.shouldDismiss = true
-
             }
         }
     }

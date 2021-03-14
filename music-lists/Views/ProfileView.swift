@@ -1,5 +1,5 @@
 //
-//  HomeView.swift
+//  ProfileView.swift
 //  music-lists
 //
 //  Created by Johannes Bjurströmer on 2021-03-13.
@@ -7,18 +7,17 @@
 
 import SwiftUI
 
-struct HomeView: View {
+struct ProfileView: View {
     var body: some View {
         ZStack {
             Color("black")
                 .ignoresSafeArea()
         }
-        .navigationTitle("Home")
     }
 }
 
-struct HomeView_Previews: PreviewProvider {
+struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        HomeView()
+        ProfileView()
     }
 }

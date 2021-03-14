@@ -31,7 +31,7 @@ struct LoginView: View {
                         .cornerRadius(30)
                 }
                 NavigationLink(
-                    destination: HomeView(),
+                    destination: HomeTabView(),
                     isActive: $showHomeView
                 ) {
                     EmptyView()
@@ -44,7 +44,9 @@ struct LoginView: View {
     }
 
     func userSignedIn() {
-        showHomeView = AuthManager().isSignedIn
+        if AuthManager.shared.isSignedIn {
+            self.showHomeView = true
+        }
     }
 }
 
