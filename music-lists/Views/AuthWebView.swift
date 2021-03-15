@@ -10,7 +10,8 @@ import WebKit
 
 struct AuthWebView: UIViewRepresentable {
 
-    @State var shouldDismiss = false
+    @EnvironmentObject var authManager: AuthManager
+
     let url = AuthManager.shared.signInURL
 
     func makeCoordinator() -> Coordinator {
@@ -31,11 +32,6 @@ struct AuthWebView: UIViewRepresentable {
     }
 
     func updateUIView(_ uiView: UIViewType, context: Context) {
-        guard !shouldDismiss || !context.environment.presentationMode.wrappedValue.isPresented
-        else {
-            context.environment.presentationMode.wrappedValue.dismiss()
-            return
-        }
         guard let url = url else { return }
         let request = URLRequest(url: url)
         uiView.load(request)
@@ -57,7 +53,7 @@ struct AuthWebView: UIViewRepresentable {
 
             AuthManager.shared.exangeCodeForToken(code: code) { success in
                 print("Login success: \(success)")
-                self.parent.shouldDismiss = true
+                self.parent.authManager.updateSignedIn()
             }
         }
     }

@@ -11,10 +11,9 @@ struct ContentView: View {
 
     @StateObject var authManager = AuthManager()
 
-    @ViewBuilder
     var body: some View {
         ZStack {
-            if !authManager.isSignedIn2 {
+            if !authManager.isSignedIn {
                 NavigationView {
                     LoginView()
                 }
@@ -24,7 +23,6 @@ struct ContentView: View {
             }
         }
         .environmentObject(authManager)
-
     }
 }
 

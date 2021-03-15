@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import Combine
 
 final class AuthManager: ObservableObject {
     
@@ -33,10 +32,16 @@ final class AuthManager: ObservableObject {
         return URL(string: string)
     }
 
-    @Published var isSignedIn2 = false
+    @Published var isSignedIn: Bool
 
-    var isSignedIn: Bool {
-        return accessToken != nil
+    init() {
+        isSignedIn = UserDefaults.standard.string(forKey: "access_token") != nil
+    }
+
+    func updateSignedIn() {
+        DispatchQueue.main.async {
+            self.isSignedIn = UserDefaults.standard.string(forKey: "access_token") != nil
+        }
     }
 
     private var accessToken: String? {
@@ -88,7 +93,6 @@ final class AuthManager: ObservableObject {
             do {
                 let result = try JSONDecoder().decode(AuthResponse.self, from: data)
                 self?.chacheToken(result: result)
-                self?.isSignedIn2 = true
                 
                 completion(true)
             }
