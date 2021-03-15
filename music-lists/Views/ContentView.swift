@@ -8,11 +8,21 @@
 import SwiftUI
 
 struct ContentView: View {
-    
+
+    @StateObject var authManager = AuthManager()
+
     var body: some View {
-        NavigationView {
-            LoginView()
+        ZStack {
+            if !authManager.isSignedIn {
+                NavigationView {
+                    LoginView()
+                }
+            }
+            else {
+                HomeTabView()
+            }
         }
+        .environmentObject(authManager)
     }
 }
 

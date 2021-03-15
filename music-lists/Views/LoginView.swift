@@ -8,9 +8,6 @@
 import SwiftUI
 
 struct LoginView: View {
-
-    @State var showHomeView = false
-    
     var body: some View {
         ZStack {
             Color("black")
@@ -30,21 +27,8 @@ struct LoginView: View {
                         .foregroundColor(.white)
                         .cornerRadius(30)
                 }
-                NavigationLink(
-                    destination: HomeView(),
-                    isActive: $showHomeView
-                ) {
-                    EmptyView()
-                }
             }
         }
-        .onAppear {
-            userSignedIn()
-        }
-    }
-
-    func userSignedIn() {
-        showHomeView = AuthManager().isSignedIn
     }
 }
 

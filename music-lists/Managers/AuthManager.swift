@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class AuthManager {
+final class AuthManager: ObservableObject {
     
     static let shared = AuthManager()
     
@@ -32,8 +32,16 @@ final class AuthManager {
         return URL(string: string)
     }
 
-    var isSignedIn: Bool {
-        return accessToken != nil
+    @Published var isSignedIn: Bool
+
+    init() {
+        isSignedIn = UserDefaults.standard.string(forKey: "access_token") != nil
+    }
+
+    func updateSignedIn() {
+        DispatchQueue.main.async {
+            self.isSignedIn = UserDefaults.standard.string(forKey: "access_token") != nil
+        }
     }
 
     private var accessToken: String? {
@@ -96,14 +104,67 @@ final class AuthManager {
         task.resume()
     }
     
-    private func refreshAccessToken() {
-        
+    public func refreshIfNeeded(completion: @escaping (Bool) -> Void) {
+        guard shouldRefreshToken else {
+            completion(true)
+            return
+        }
+        guard let refreshToken = self.refreshToken else { return }
+
+        guard let url = tokenApiURL else { return }
+
+        var components = URLComponents()
+        components.queryItems = [
+            URLQueryItem(name: "grant_type", value: "refresh_token"),
+            URLQueryItem(name: "refresh_token", value: refreshToken)
+        ]
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+        request.httpBody = components.query?.data(using: .utf8)
+
+        let basicToken = "\(Constants.clientID):\(Constants.clientSecret)"
+        let data = basicToken.data(using: .utf8)
+        guard let base64String = data?.base64EncodedString() else {
+            print("Failed to get Base 64 token")
+            completion(false)
+            return
+        }
+
+        request.setValue("Basic \(base64String)", forHTTPHeaderField: "Authorization")
+        let task = URLSession.shared.dataTask(with: request) { [weak self] data, _, error in
+            guard let data = data else { return }
+
+            do {
+                let result = try JSONDecoder().decode(AuthResponse.self, from: data)
+                print("Successfully refreshed token")
+                self?.chacheToken(result: result)
+                completion(true)
+            }
+            catch {
+                print(error.localizedDescription)
+                completion(false)
+            }
+        }
+        task.resume()
     }
     
     private func chacheToken(result: AuthResponse) {
         UserDefaults.standard.setValue(result.access_token, forKey: "access_token")
-        UserDefaults.standard.setValue(result.refresh_token, forKey: "refresh_token")
+        if let refresh_token = result.refresh_token {
+            UserDefaults.standard.setValue(refresh_token, forKey: "refresh_token")
+        }
         UserDefaults.standard.setValue(Date().addingTimeInterval(TimeInterval(result.expires_in)), forKey: "expiration")
+    }
+
+    func signOut() {
+//        let url = URL(string: "https://www.spotify.com/logout/")
+//        let request = URLRequest(url: url)
+//        UserDefaults.resetStandardUserDefaults()
+//        URLSession.shared.dataTask(with: request) { _ in
+//
+//        }
     }
     
 }
