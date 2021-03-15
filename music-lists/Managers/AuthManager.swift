@@ -11,6 +11,12 @@ final class AuthManager: ObservableObject {
     
     static let shared = AuthManager()
     
+    @Published var isSignedIn: Bool
+
+    init() {
+        isSignedIn = UserDefaults.standard.string(forKey: "access_token") != nil
+    }
+    
     private struct Constants {
         static let clientID = "1b3a3e3d826549a1a08e3c89988b7e6d"
         static let clientSecret = "00be042ea9aa4102a24f5f48fac7f2a9"
@@ -30,12 +36,6 @@ final class AuthManager: ObservableObject {
         let string = "\(Constants.baseURLString)/api/token"
         
         return URL(string: string)
-    }
-
-    @Published var isSignedIn: Bool
-
-    init() {
-        isSignedIn = UserDefaults.standard.string(forKey: "access_token") != nil
     }
 
     func updateSignedIn() {

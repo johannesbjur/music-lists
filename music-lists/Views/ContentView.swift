@@ -19,7 +19,7 @@ struct ContentView: View {
                 }
             }
             else {
-                HomeTabView()
+                MainTabView()
             }
         }
         .environmentObject(authManager)

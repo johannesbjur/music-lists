@@ -12,7 +12,10 @@ struct ProfileView: View {
         ZStack {
             Color("black")
                 .ignoresSafeArea()
+            Text("Profile")
+                .foregroundColor(.white)
         }
+        .navigationTitle("Profile")
     }
 }
 
