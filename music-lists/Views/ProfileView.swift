@@ -15,8 +15,13 @@ struct ProfileView: View {
         ZStack {
             Color("black")
                 .ignoresSafeArea()
-            Text(viewModel.user?.display_name ?? "")
-                .foregroundColor(.white)
+            VStack {
+                Text(viewModel.user?.display_name ?? "")
+                    .foregroundColor(.white)
+
+                Text(viewModel.topTracks?[0].name ?? "")
+                    .foregroundColor(.white)
+            }
         }
         .navigationTitle("Profile")
     }
