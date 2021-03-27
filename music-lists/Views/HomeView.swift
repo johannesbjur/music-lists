@@ -14,7 +14,6 @@ struct HomeView: View {
                 .ignoresSafeArea()
             Text("Home")
                 .foregroundColor(.white)
-
         }
         .navigationTitle("Home")
     }

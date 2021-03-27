@@ -8,11 +8,14 @@
 import SwiftUI
 
 struct ProfileView: View {
+
+    @StateObject var viewModel = ViewModel()
+
     var body: some View {
         ZStack {
             Color("black")
                 .ignoresSafeArea()
-            Text("Profile")
+            Text(viewModel.user?.display_name ?? "")
                 .foregroundColor(.white)
         }
         .navigationTitle("Profile")

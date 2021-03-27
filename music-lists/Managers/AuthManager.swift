@@ -8,10 +8,11 @@
 import Foundation
 
 final class AuthManager: ObservableObject {
-    
     static let shared = AuthManager()
     
     @Published var isSignedIn: Bool
+
+    private var refreshingToken = false
 
     init() {
         isSignedIn = UserDefaults.standard.string(forKey: "access_token") != nil
@@ -26,7 +27,7 @@ final class AuthManager: ObservableObject {
     
     public var signInURL: URL? {
         let base = "\(Constants.baseURLString)/authorize"
-        let scopes = "user-read-private"
+        let scopes = "user-read-private%20user-top-read"
         let string = "\(base)?response_type=code&client_id=\(Constants.clientID)&scope=\(scopes)&redirect_uri=\(Constants.redirectURI)&show_dialog=true"
         
         return URL(string: string)
@@ -62,7 +63,7 @@ final class AuthManager: ObservableObject {
         let currentDate = Date()
         return currentDate.addingTimeInterval(fiveMinutes) >= expirationDate
     }
-        
+
     public func exangeCodeForToken(code: String, completion: @escaping ((Bool) -> Void)) {
         guard let url = tokenApiURL else { return }
         
@@ -103,15 +104,38 @@ final class AuthManager: ObservableObject {
         }
         task.resume()
     }
-    
+
+    private var onRefreshBlocks = [((String) -> Void)]()
+
+    public func withValidToken(completion: @escaping (String) -> Void) {
+        guard !refreshingToken else {
+            onRefreshBlocks.append(completion)
+            return
+        }
+        if shouldRefreshToken {
+            refreshIfNeeded { [weak self] success in
+                if let token = self?.accessToken, success {
+                    completion(token)
+                }
+            }
+        }
+        else if let token = accessToken {
+            completion(token)
+        }
+    }
+
     public func refreshIfNeeded(completion: @escaping (Bool) -> Void) {
+        guard !refreshingToken else {
+            return
+        }
         guard shouldRefreshToken else {
             completion(true)
             return
         }
         guard let refreshToken = self.refreshToken else { return }
-
         guard let url = tokenApiURL else { return }
+
+        refreshingToken = true
 
         var components = URLComponents()
         components.queryItems = [
@@ -139,6 +163,8 @@ final class AuthManager: ObservableObject {
             do {
                 let result = try JSONDecoder().decode(AuthResponse.self, from: data)
                 print("Successfully refreshed token")
+                self?.onRefreshBlocks.forEach{ $0(result.access_token) }
+                self?.onRefreshBlocks.removeAll()
                 self?.chacheToken(result: result)
                 completion(true)
             }
@@ -159,12 +185,12 @@ final class AuthManager: ObservableObject {
     }
 
     func signOut() {
-//        let url = URL(string: "https://www.spotify.com/logout/")
-//        let request = URLRequest(url: url)
-//        UserDefaults.resetStandardUserDefaults()
-//        URLSession.shared.dataTask(with: request) { _ in
-//
-//        }
+        //        let url = URL(string: "https://www.spotify.com/logout/")
+        //        let request = URLRequest(url: url)
+        //        UserDefaults.resetStandardUserDefaults()
+        //        URLSession.shared.dataTask(with: request) { _ in
+        //
+        //        }
     }
     
 }
