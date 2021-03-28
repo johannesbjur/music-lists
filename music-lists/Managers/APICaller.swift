@@ -54,7 +54,7 @@ extension APICaller {
                 }
                 do {
                     let result = try JSONDecoder().decode(UserProfile.self, from: data)
-                    print(result)
+//                    print(result)
                     completion(.success(result))
                 }
                 catch {
@@ -86,6 +86,7 @@ extension APICaller {
                 }
                 do{
                     let result = try JSONDecoder().decode(TracksResponseBody.self, from: data)
+//                    print(result)
                     completion(.success(result.items))
                 }
                 catch {

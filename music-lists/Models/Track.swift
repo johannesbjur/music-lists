@@ -7,12 +7,18 @@
 
 import Foundation
 
-struct Track: Decodable {
+struct Track: Codable, Identifiable {
     let id: String
-    let album: Album
     let name: String
-
+    let album: Album
+    let artists: [Artist]
 }
-struct Album: Decodable {
+
+struct Album: Codable {
+    let name: String
+    let images: [ImageItem]
+}
+
+struct Artist: Codable {
     let name: String
 }

@@ -29,8 +29,13 @@ struct ProfileView: View {
                 Text("Your top 5 songs")
                     .foregroundColor(.white)
 
-//                List {
-//                }
+                if let tracks = viewModel.topTracks, viewModel.topTracks?.count == 5 {
+                    List {
+                        ForEach(tracks) { track in
+                            TrackItemCell(track: track)
+                        }
+                    }
+                }
             }
         }
     }

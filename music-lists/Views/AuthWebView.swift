@@ -32,7 +32,6 @@ struct AuthWebView: UIViewRepresentable {
     }
 
     func updateUIView(_ uiView: UIViewType, context: Context) {
-        print(AuthManager.shared.signInURL)
         guard let url = url else { return }
         let request = URLRequest(url: url)
         uiView.load(request)
