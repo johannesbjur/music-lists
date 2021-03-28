@@ -16,14 +16,23 @@ struct ProfileView: View {
             Color("black")
                 .ignoresSafeArea()
             VStack {
+                if let profileImage = viewModel.profileImage {
+                    Image(uiImage: profileImage)
+                        .resizable()
+                        .frame(width: 200, height: 200)
+                        .clipShape(Circle())
+                }
+                
                 Text(viewModel.user?.display_name ?? "")
                     .foregroundColor(.white)
 
-                Text(viewModel.topTracks?[0].name ?? "")
+                Text("Your top 5 songs")
                     .foregroundColor(.white)
+
+//                List {
+//                }
             }
         }
-        .navigationTitle("Profile")
     }
 }
 

@@ -54,7 +54,7 @@ extension APICaller {
                 }
                 do {
                     let result = try JSONDecoder().decode(UserProfile.self, from: data)
-//                    print(result)
+                    print(result)
                     completion(.success(result))
                 }
                 catch {
@@ -63,6 +63,18 @@ extension APICaller {
             }
             task.resume()
         }
+    }
+
+    func getImage(with url: String, completion: @escaping (Result<Data, Error>) -> Void) {
+        guard let url = URL(string: url) else { return }
+        let task = URLSession.shared.dataTask(with: url) { data, _, error in
+            guard let data = data, error == nil else {
+                completion(.failure(APIError.failedToGetData))
+                return
+            }
+            completion(.success(data))
+        }
+        task.resume()
     }
 
     public func getUserTopTracks(completion: @escaping (Result<[Track], Error>) -> Void) {

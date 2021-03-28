@@ -6,16 +6,20 @@
 //
 
 import Foundation
+import UIKit
 
 extension ProfileView {
     class ViewModel: ObservableObject {
         @Published var user: UserProfile?
         @Published var topTracks: [Track]?
+        @Published var profileImage: UIImage?
 
         init() {
-            getUserData { user in
+            getUserData { [weak self] user in
                 DispatchQueue.main.async {
-                    self.user = user
+                    self?.user = user
+//                    TODO: cache image
+                    self?.getProfileImage(url: (user?.images[0].url)!)
                 }
             }
             getTopTracks { tracks in
@@ -48,6 +52,21 @@ extension ProfileView {
                 case .failure(let error):
                     print(error.localizedDescription)
                     completion(nil)
+                    break
+                }
+            }
+        }
+
+        func getProfileImage(url: String) {
+            APICaller.shared.getImage(with: url) { [weak self] (result) in
+                switch result {
+                case .success(let imageData):
+                    DispatchQueue.main.async {
+                        self?.profileImage = UIImage(data: imageData)
+                    }
+                    break
+                case .failure(let error):
+                    print(error.localizedDescription)
                     break
                 }
             }
