@@ -9,6 +9,10 @@ import SwiftUI
 
 struct ProfileView: View {
 
+    init(){
+        UITableView.appearance().backgroundColor = UIColor(Color("black"))
+    }
+
     @StateObject var viewModel = ViewModel()
 
     var body: some View {
@@ -33,6 +37,7 @@ struct ProfileView: View {
                     List {
                         ForEach(tracks) { track in
                             TrackItemCell(track: track)
+                                .listRowBackground(Color("black"))
                         }
                     }
                 }

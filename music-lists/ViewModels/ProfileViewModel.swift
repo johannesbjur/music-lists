@@ -25,6 +25,14 @@ extension ProfileView {
             getTopTracks { tracks in
                 DispatchQueue.main.async {
                     self.topTracks = tracks
+                    for (key, track) in tracks!.enumerated() {
+                        self.getTrackImage(url: track.album.images[0].url) { (image) in
+                            DispatchQueue.main.async {
+                                self.topTracks?[key].uiImage = image
+                            }
+
+                        }
+                    }
                 }
             }
         }
@@ -67,6 +75,20 @@ extension ProfileView {
                     break
                 case .failure(let error):
                     print(error.localizedDescription)
+                    break
+                }
+            }
+        }
+
+        func getTrackImage(url: String, completion: @escaping (UIImage?) -> Void) {
+            APICaller.shared.getImage(with: url) { (result) in
+                switch result {
+                case .success(let imageData):
+                    completion(UIImage(data: imageData))
+                    break
+                case .failure(let error):
+                    print(error.localizedDescription)
+                    completion(nil)
                     break
                 }
             }
