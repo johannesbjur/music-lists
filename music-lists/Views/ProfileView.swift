@@ -19,25 +19,27 @@ struct ProfileView: View {
         ZStack {
             Color("black")
                 .ignoresSafeArea()
-            VStack {
-                if let profileImage = viewModel.profileImage {
-                    Image(uiImage: profileImage)
-                        .resizable()
-                        .frame(width: 200, height: 200)
-                        .clipShape(Circle())
-                }
-                
-                Text(viewModel.user?.display_name ?? "")
-                    .foregroundColor(.white)
+            ScrollView {
+                VStack {
+                    if let profileImage = viewModel.profileImage {
+                        Image(uiImage: profileImage)
+                            .resizable()
+                            .frame(width: 200, height: 200)
+                            .clipShape(Circle())
+                    }
 
-                Text("Your top 5 songs")
-                    .foregroundColor(.white)
+                    Text(viewModel.user?.display_name ?? "")
+                        .foregroundColor(.white)
 
-                if let tracks = viewModel.topTracks, viewModel.topTracks?.count == 5 {
-                    List {
-                        ForEach(tracks) { track in
-                            TrackItemCell(track: track)
-                                .listRowBackground(Color("black"))
+                    Text("Your top 5 songs")
+                        .foregroundColor(.white)
+
+                    if let tracks = viewModel.topTracks, viewModel.topTracks?.count == 5 {
+                        VStack {
+                            ForEach(tracks) { track in
+                                TrackItemCell(track: track)
+                                    .listRowBackground(Color("black"))
+                            }
                         }
                     }
                 }

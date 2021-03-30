@@ -24,6 +24,7 @@ struct TrackItemCell: View {
                 Text(track.album.name)
                     .foregroundColor(.white)
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
         }
     }
 }

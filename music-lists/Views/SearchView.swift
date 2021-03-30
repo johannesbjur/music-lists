@@ -1,24 +1,24 @@
 //
-//  HomeView.swift
+//  SearchView.swift
 //  music-lists
 //
-//  Created by Johannes Bjurströmer on 2021-03-13.
+//  Created by Johannes Bjurströmer on 2021-03-30.
 //
 
 import SwiftUI
 
-struct HomeView: View {
+struct SearchView: View {
     var body: some View {
         ZStack {
             Color("black")
                 .ignoresSafeArea()
         }
-        .navigationTitle("Home")
+        .navigationTitle("Search")
     }
 }
 
-struct HomeView_Previews: PreviewProvider {
+struct SearchView_Previews: PreviewProvider {
     static var previews: some View {
-        HomeView()
+        SearchView()
     }
 }
