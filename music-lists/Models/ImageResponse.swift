@@ -7,6 +7,6 @@
 
 import Foundation
 
-struct ImageItem: Codable {
+struct ImageResponse: Codable {
     let url: String
 }

@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 extension ProfileView {
-    class ViewModel: ObservableObject {
+    class ProfileViewModel: ObservableObject {
         @Published var user: UserProfile?
         @Published var topTracks: [Track]?
         @Published var profileImage: UIImage?
@@ -22,22 +22,22 @@ extension ProfileView {
                     self?.getProfileImage(url: (user?.images[0].url)!)
                 }
             }
-            getTopTracks { tracks in
+            getTopTracks { [weak self] tracks in
                 DispatchQueue.main.async {
-                    self.topTracks = tracks
-                    for (key, track) in tracks!.enumerated() {
-                        self.getTrackImage(url: track.album.images[0].url) { (image) in
+                    guard let tracks = tracks else { return }
+                    self?.topTracks = tracks
+                    for (key, track) in tracks.enumerated() {
+                        self?.getTrackImage(url: track.album.images[0].url) { [weak self] (image) in
                             DispatchQueue.main.async {
-                                self.topTracks?[key].uiImage = image
+                                self?.topTracks?[key].uiImage = image
                             }
-
                         }
                     }
                 }
             }
         }
 
-        func getUserData(completion: @escaping (UserProfile?) -> Void) {
+        private func getUserData(completion: @escaping (UserProfile?) -> Void) {
             APICaller.shared.getCurrentUserProfile { result in
                 switch result {
                 case .success(let user):
@@ -51,7 +51,7 @@ extension ProfileView {
             }
         }
 
-        func getTopTracks(completion: @escaping ([Track]?) -> Void) {
+        private func getTopTracks(completion: @escaping ([Track]?) -> Void) {
             APICaller.shared.getUserTopTracks { result in
                 switch result {
                 case .success(let tracks):
@@ -65,7 +65,7 @@ extension ProfileView {
             }
         }
 
-        func getProfileImage(url: String) {
+        private func getProfileImage(url: String) {
             APICaller.shared.getImage(with: url) { [weak self] (result) in
                 switch result {
                 case .success(let imageData):
@@ -80,7 +80,7 @@ extension ProfileView {
             }
         }
 
-        func getTrackImage(url: String, completion: @escaping (UIImage?) -> Void) {
+        private func getTrackImage(url: String, completion: @escaping (UIImage?) -> Void) {
             APICaller.shared.getImage(with: url) { (result) in
                 switch result {
                 case .success(let imageData):

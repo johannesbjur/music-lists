@@ -13,7 +13,7 @@ struct ProfileView: View {
         UITableView.appearance().backgroundColor = UIColor(Color("black"))
     }
 
-    @StateObject var viewModel = ViewModel()
+    @StateObject var viewModel = ProfileViewModel()
 
     var body: some View {
         ZStack {

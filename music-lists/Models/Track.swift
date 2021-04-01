@@ -22,7 +22,7 @@ struct Track: Codable, Identifiable {
 
 struct Album: Codable {
     let name: String
-    let images: [ImageItem]
+    let images: [ImageResponse]
 }
 
 struct Artist: Codable {

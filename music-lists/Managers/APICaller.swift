@@ -27,11 +27,12 @@ final class APICaller {
     enum path: String {
         case user = "/me"
         case tracks = "/me/top/tracks?limit=5"
+        case playlists = "/me/playlists"
     }
 
     private init() {}
 
-    private func createRequest(with url: URL?, method: HTTPMethod, completion: @escaping (URLRequest) -> Void){
+    private func createAuthRequest(with url: URL?, method: HTTPMethod, completion: @escaping (URLRequest) -> Void){
         guard let url = url else { return }
         AuthManager.shared.withValidToken { (token) in
             var request = URLRequest(url: url)
@@ -46,7 +47,7 @@ final class APICaller {
 // MARK:- Fetch functions
 extension APICaller {
     public func getCurrentUserProfile(completion: @escaping (Result<UserProfile, Error>) -> Void) {
-        createRequest(with: URL(string: Constants.baseAPIUrl + path.user.rawValue), method: .GET) { (baseRequest) in
+        createAuthRequest(with: URL(string: Constants.baseAPIUrl + path.user.rawValue), method: .GET) { (baseRequest) in
             let task = URLSession.shared.dataTask(with: baseRequest) { data, _, error in
                 guard let data = data, error == nil else {
                     completion(.failure(APIError.failedToGetData))
@@ -78,7 +79,7 @@ extension APICaller {
     }
 
     public func getUserTopTracks(completion: @escaping (Result<[Track], Error>) -> Void) {
-        createRequest(with: URL(string: Constants.baseAPIUrl + path.tracks.rawValue), method: .GET) { (baseRequest) in
+        createAuthRequest(with: URL(string: Constants.baseAPIUrl + path.tracks.rawValue), method: .GET) { (baseRequest) in
             let task = URLSession.shared.dataTask(with: baseRequest) { data, _, error in
                 guard let data = data, error == nil else {
                     completion(.failure(APIError.failedToGetData))
@@ -96,10 +97,33 @@ extension APICaller {
             task.resume()
         }
     }
+
+    func getUserPlaylists(completion: @escaping (Result<[Playlist], Error>) -> Void) {
+        createAuthRequest(with: URL(string: Constants.baseAPIUrl + path.playlists.rawValue), method: .GET) { (baseRequest) in
+            URLSession.shared.dataTask(with: baseRequest) { data, _, error in
+                guard let data = data, error == nil else {
+                    completion(.failure(APIError.failedToGetData))
+                    return
+                }
+                do{
+                    let result = try JSONDecoder().decode(PlaylistsResponseBody.self, from: data)
+//                    print(result)
+                    completion(.success(result.items))
+                }
+                catch {
+                    completion(.failure(error))
+                }
+            }.resume()
+        }
+    }
 }
 
 extension APICaller {
     struct TracksResponseBody: Decodable {
         let items: [Track]
+    }
+
+    struct PlaylistsResponseBody: Decodable {
+        let items: [Playlist]
     }
 }

@@ -11,6 +11,6 @@ struct UserProfile: Codable {
     let country: String
     let id: String
     let display_name: String
-    let images: [ImageItem]
+    let images: [ImageResponse]
     let product: String
 }
