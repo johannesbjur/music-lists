@@ -6,7 +6,7 @@
 //
 
 import Foundation
-
+import UIKit
 
 final class APICaller {
     static let shared = APICaller()
@@ -28,6 +28,7 @@ final class APICaller {
         case user = "/me"
         case tracks = "/me/top/tracks?limit=5"
         case playlists = "/me/playlists"
+        case playlist = "/playlists/"
     }
 
     private init() {}
@@ -78,6 +79,20 @@ extension APICaller {
         task.resume()
     }
 
+    func getUIImage(url: String, completion: @escaping (UIImage?) -> Void) {
+        APICaller.shared.getImage(with: url) { (result) in
+            switch result {
+            case .success(let imageData):
+                completion(UIImage(data: imageData))
+                break
+            case .failure(let error):
+                print(error.localizedDescription)
+                completion(nil)
+                break
+            }
+        }
+    }
+
     public func getUserTopTracks(completion: @escaping (Result<[Track], Error>) -> Void) {
         createAuthRequest(with: URL(string: Constants.baseAPIUrl + path.tracks.rawValue), method: .GET) { (baseRequest) in
             let task = URLSession.shared.dataTask(with: baseRequest) { data, _, error in
@@ -116,6 +131,30 @@ extension APICaller {
             }.resume()
         }
     }
+
+    func getPlaylistTracks(playlistId: String, completion: @escaping (Result<PlaylistResponseBody, Error>) -> Void) {
+        createAuthRequest(with: URL(string: Constants.baseAPIUrl + path.playlist.rawValue + playlistId), method: .GET) { (baseRequest) in
+            URLSession.shared.dataTask(with: baseRequest) { data, _, error in
+                guard let data = data, error == nil else {
+                    completion(.failure(APIError.failedToGetData))
+                    return
+                }
+                do{
+                    let result = try JSONDecoder().decode(PlaylistResponseBody.self, from: data)
+//                    print(result)
+
+//                    var tracks = [Track]()
+//                    for track in result.tracks.items {
+//                        tracks.append(track.track)
+//                    }
+                    completion(.success(result))
+                }
+                catch {
+                    completion(.failure(error))
+                }
+            }.resume()
+        }
+    }
 }
 
 extension APICaller {
@@ -125,5 +164,18 @@ extension APICaller {
 
     struct PlaylistsResponseBody: Decodable {
         let items: [Playlist]
+    }
+
+    struct PlaylistResponseBody: Decodable {
+        let images: [ImageResponse]
+        let tracks: TracksShell
+    }
+
+    struct TracksShell: Decodable {
+        let items: [TrackContainer]
+    }
+
+    struct TrackContainer: Decodable {
+        let track: Track
     }
 }

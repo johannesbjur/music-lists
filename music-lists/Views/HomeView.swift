@@ -18,7 +18,14 @@ struct HomeView: View {
             if let playlists = viewModel.playlists {
                 ScrollView {
                     ForEach(playlists) { playlist in
-                        PlaylistItemCell(playlist: playlist)
+                        NavigationLink(destination:
+                            PlaylistView(
+                                playlistId: playlist.id,
+                                playlistName: playlist.name))
+                        {
+                            PlaylistItemCell(playlist: playlist)
+                        }
+
                     }
                 }
             }

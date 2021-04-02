@@ -19,7 +19,12 @@ extension ProfileView {
                 DispatchQueue.main.async {
                     self?.user = user
 //                    TODO: cache image
-                    self?.getProfileImage(url: (user?.images[0].url)!)
+                    guard let profileImgUrl = user?.images[0].url else { return }
+                    APICaller.shared.getUIImage(url: profileImgUrl) { [weak self] (image) in
+                        DispatchQueue.main.async {
+                            self?.profileImage = image
+                        }
+                    }
                 }
             }
             getTopTracks { [weak self] tracks in
@@ -27,7 +32,7 @@ extension ProfileView {
                     guard let tracks = tracks else { return }
                     self?.topTracks = tracks
                     for (key, track) in tracks.enumerated() {
-                        self?.getTrackImage(url: track.album.images[0].url) { [weak self] (image) in
+                        APICaller.shared.getUIImage(url: track.album.images[0].url) { [weak self] (image) in
                             DispatchQueue.main.async {
                                 self?.topTracks?[key].uiImage = image
                             }
@@ -56,35 +61,6 @@ extension ProfileView {
                 switch result {
                 case .success(let tracks):
                     completion(tracks)
-                    break
-                case .failure(let error):
-                    print(error.localizedDescription)
-                    completion(nil)
-                    break
-                }
-            }
-        }
-
-        private func getProfileImage(url: String) {
-            APICaller.shared.getImage(with: url) { [weak self] (result) in
-                switch result {
-                case .success(let imageData):
-                    DispatchQueue.main.async {
-                        self?.profileImage = UIImage(data: imageData)
-                    }
-                    break
-                case .failure(let error):
-                    print(error.localizedDescription)
-                    break
-                }
-            }
-        }
-
-        private func getTrackImage(url: String, completion: @escaping (UIImage?) -> Void) {
-            APICaller.shared.getImage(with: url) { (result) in
-                switch result {
-                case .success(let imageData):
-                    completion(UIImage(data: imageData))
                     break
                 case .failure(let error):
                     print(error.localizedDescription)
