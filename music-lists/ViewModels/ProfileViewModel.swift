@@ -15,22 +15,41 @@ extension ProfileView {
         @Published var profileImage: UIImage?
 
         init() {
-            getUserData { [weak self] user in
-                DispatchQueue.main.async {
-                    self?.user = user
-//                    TODO: cache image
-                    guard let profileImgUrl = user?.images[0].url else { return }
-                    APICaller.shared.getUIImage(url: profileImgUrl) { [weak self] (image) in
+            setupUserData()
+            setupTopTracks()
+        }
+
+        private func setupUserData() {
+            APICaller.shared.getCurrentUserProfile { [weak self] result in
+                switch result {
+                case .success(let user):
+                    DispatchQueue.main.async {
+                        self?.user = user
+                    }
+    //                TODO: cache image
+                    APICaller.shared.getUIImage(url: user.images[0].url) { [weak self] (image) in
                         DispatchQueue.main.async {
                             self?.profileImage = image
                         }
                     }
+                    break
+                case .failure(let error):
+                    print(error.localizedDescription)
+                    DispatchQueue.main.async {
+                        self?.user = nil
+                    }
+                    break
                 }
             }
-            getTopTracks { [weak self] tracks in
-                DispatchQueue.main.async {
-                    guard let tracks = tracks else { return }
-                    self?.topTracks = tracks
+        }
+
+        private func setupTopTracks() {
+            APICaller.shared.getUserTopTracks { [weak self] result in
+                switch result {
+                case .success(let tracks):
+                    DispatchQueue.main.async {
+                        self?.topTracks = tracks
+                    }
                     for (key, track) in tracks.enumerated() {
                         APICaller.shared.getUIImage(url: track.album.images[0].url) { [weak self] (image) in
                             DispatchQueue.main.async {
@@ -38,33 +57,12 @@ extension ProfileView {
                             }
                         }
                     }
-                }
-            }
-        }
-
-        private func getUserData(completion: @escaping (UserProfile?) -> Void) {
-            APICaller.shared.getCurrentUserProfile { result in
-                switch result {
-                case .success(let user):
-                    completion(user)
                     break
                 case .failure(let error):
                     print(error.localizedDescription)
-                    completion(nil)
-                    break
-                }
-            }
-        }
-
-        private func getTopTracks(completion: @escaping ([Track]?) -> Void) {
-            APICaller.shared.getUserTopTracks { result in
-                switch result {
-                case .success(let tracks):
-                    completion(tracks)
-                    break
-                case .failure(let error):
-                    print(error.localizedDescription)
-                    completion(nil)
+                    DispatchQueue.main.async {
+                        self?.topTracks = nil
+                    }
                     break
                 }
             }

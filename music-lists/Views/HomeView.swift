@@ -14,18 +14,26 @@ struct HomeView: View {
         ZStack {
             Color("black")
                 .ignoresSafeArea()
+            VStack {
+//                Text("Home")
+//                    .foregroundColor(.white)
+//                    .font(.system(size: 34))
+//                    .fontWeight(.heavy)
+//                    .padding()
+//                    .frame(maxWidth: .infinity, alignment: .leading)
 
-            if let playlists = viewModel.playlists {
-                ScrollView {
-                    ForEach(playlists) { playlist in
-                        NavigationLink(destination:
-                            PlaylistView(
-                                playlistId: playlist.id,
-                                playlistName: playlist.name))
-                        {
-                            PlaylistItemCell(playlist: playlist)
+                if let playlists = viewModel.playlists {
+                    ScrollView {
+                        ForEach(playlists) { playlist in
+                            NavigationLink(destination:
+                                PlaylistView(
+                                    playlistId: playlist.id,
+                                    playlistName: playlist.name))
+                            {
+                                PlaylistItemCell(playlist: playlist)
+                            }
+
                         }
-
                     }
                 }
             }

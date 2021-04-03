@@ -13,10 +13,16 @@ extension HomeView {
         @Published var playlists: [Playlist]?
 
         init() {
-            self.getUserPlaylists { [weak self] (playlists) in
-                DispatchQueue.main.async {
-                    guard let playlists = playlists else { return }
-                    self?.playlists = playlists
+            setupUserPlaylists()
+        }
+
+        private func setupUserPlaylists() {
+            APICaller.shared.getUserPlaylists { [weak self] result in
+                switch result {
+                case .success(let playlists):
+                    DispatchQueue.main.async {
+                        self?.playlists = playlists
+                    }
                     for (key, playlist) in playlists.enumerated() {
                         if playlist.images.count > 0 {
                             self?.getPlaylistImage(url: playlist.images[0].url) { (image) in
@@ -26,19 +32,12 @@ extension HomeView {
                             }
                         }
                     }
-                }
-            }
-        }
-
-        private func getUserPlaylists(completion: @escaping ([Playlist]?) -> Void) {
-            APICaller.shared.getUserPlaylists { result in
-                switch result {
+                    break
                 case .failure(let error):
                     print(error)
-                    completion(nil)
-                    break
-                case .success(let playlists):
-                    completion(playlists)
+                    DispatchQueue.main.async {
+                        self?.playlists = nil
+                    }
                     break
                 }
             }
