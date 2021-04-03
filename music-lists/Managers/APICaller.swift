@@ -29,6 +29,7 @@ final class APICaller {
         case tracks = "/me/top/tracks?limit=5"
         case playlists = "/me/playlists"
         case playlist = "/playlists/"
+        case searchTracks = "/search?type=track&limit=10&q="
     }
 
     private init() {}
@@ -142,12 +143,28 @@ extension APICaller {
                 do{
                     let result = try JSONDecoder().decode(PlaylistResponseBody.self, from: data)
 //                    print(result)
-
-//                    var tracks = [Track]()
-//                    for track in result.tracks.items {
-//                        tracks.append(track.track)
-//                    }
                     completion(.success(result))
+                }
+                catch {
+                    completion(.failure(error))
+                }
+            }.resume()
+        }
+    }
+
+    func searchTracks(with string: String, completion: @escaping (Result<[Track], Error>) -> Void) {
+        createAuthRequest(with: URL(string: Constants.baseAPIUrl + path.searchTracks.rawValue + string), method: .GET) { (baseRequest) in
+            URLSession.shared.dataTask(with: baseRequest) { data, _, error in
+                guard let data = data, error == nil else {
+                    completion(.failure(APIError.failedToGetData))
+                    return
+                }
+                do {
+//                    let result = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
+                    let result = try JSONDecoder().decode(SearchResponseBody.self, from: data)
+                    print(result)
+
+                    completion(.success(result.tracks.items))
                 }
                 catch {
                     completion(.failure(error))
@@ -177,5 +194,9 @@ extension APICaller {
 
     struct TrackContainer: Decodable {
         let track: Track
+    }
+
+    struct SearchResponseBody: Decodable {
+        let tracks: TracksResponseBody
     }
 }
