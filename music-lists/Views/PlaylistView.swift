@@ -17,6 +17,7 @@ struct PlaylistView: View {
         ZStack {
             Color("black")
                 .ignoresSafeArea()
+//            TODO: should problably change to List for lazy load
             ScrollView {
                 if let playlistImage = viewModel.playlistImage {
                     Image(uiImage: playlistImage)

@@ -13,6 +13,8 @@ struct MainTabView: View {
         UITabBar.appearance().barTintColor = UIColor.init(Color("darkGrey"))
     }
 
+    @StateObject var modalHandler = TrackModalHandler()
+
     var body: some View {
         TabView {
             NavigationView {
@@ -39,8 +41,17 @@ struct MainTabView: View {
                 Text("Profile")
             }
         }
+        .environmentObject(modalHandler)
         .accentColor(.white)
+
+        TrackModalView(modalShowing: $modalHandler.showing, track: $modalHandler.track)
+
     }
+}
+
+class TrackModalHandler: ObservableObject {
+    @Published var showing = false
+    @Published var track: Track?
 }
 
 struct MainTabView_Previews: PreviewProvider {
