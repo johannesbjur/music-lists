@@ -33,6 +33,7 @@ extension PlaylistView {
                         }
                     }
                     for (key, track) in tracks.enumerated() {
+                        guard track.album.images.count > 0 else { return }
                         APICaller.shared.getUIImage(url: track.album.images[0].url) { [weak self] (image) in
                             DispatchQueue.main.async {
                                 self?.tracks?[key].uiImage = image

@@ -20,7 +20,7 @@ struct SearchView: View {
                 HStack {
                     Image(systemName: "magnifyingglass")
                         .foregroundColor(.white)
-                    TextField("Search..", text: $searchText)
+                    TextField("Search for songs...", text: $searchText)
                         .foregroundColor(.white)
                         .onChange(of: searchText) {
                             viewModel.searchTracks(with: $0)

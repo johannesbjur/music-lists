@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 struct Track: Codable, Identifiable {
-    let id: String
+    let id: String?
     let name: String
     let album: Album
     let artists: [Artist]
@@ -21,10 +21,10 @@ struct Track: Codable, Identifiable {
 }
 
 struct Album: Codable {
-    let name: String
+    let name: String?
     let images: [ImageResponse]
 }
 
 struct Artist: Codable {
-    let name: String
+    let name: String?
 }

@@ -36,9 +36,14 @@ struct ProfileView: View {
 
                     if let tracks = viewModel.topTracks, viewModel.topTracks?.count == 5 {
                         VStack {
-                            ForEach(tracks) { track in
-                                TrackItemCell(track: track)
-                                    .listRowBackground(Color("black"))
+                            ForEach(tracks.indices) { i in
+                                HStack {
+                                    Text("\(i+1).")
+                                        .foregroundColor(.white)
+                                        .padding()
+                                    TrackItemCell(track: tracks[i])
+                                        .listRowBackground(Color("black"))
+                                }
                             }
                         }
                     }

@@ -21,10 +21,13 @@ struct TrackItemCell: View {
             VStack {
                 Text(track.name)
                     .foregroundColor(.white)
-                Text(track.album.name)
+                    .lineLimit(1)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                Text(track.artists[0].name ?? "")
                     .foregroundColor(.white)
+                    .lineLimit(1)
+                    .frame(maxWidth: .infinity, alignment: .leading)
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
         }
     }
 }
