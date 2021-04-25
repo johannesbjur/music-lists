@@ -10,9 +10,6 @@ import UIKit
 import Firebase
 
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
-  var window: UIWindow?
-
     func application(_ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions:
         [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -23,6 +20,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 @main
 struct music_listsApp: App {
+    
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+    
     init() {
         UINavigationBar.appearance().largeTitleTextAttributes = [.foregroundColor: UIColor.white]
     }
