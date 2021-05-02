@@ -32,15 +32,11 @@ final class FireStoreManager {
         }
     }
     
-    func getUserPlaylists(completion: @escaping ([FireStorePlaylist]) -> Void) {
+    func getUserPlaylists(completion: @escaping (Result<[FireStorePlaylist], Error>) -> Void) {
         db.collection("playlists").whereField("userId", isEqualTo: userId ?? "").getDocuments { (snapshot, error) in
-            if let error = error {
-                print(error)
-                completion([])
-            }
-            guard let documents = snapshot?.documents else {
+            guard let documents = snapshot?.documents, error == nil else {
                 print("No documents")
-                completion([])
+                completion(.failure(error!))
                 return
             }
             
@@ -49,13 +45,16 @@ final class FireStoreManager {
             playlists = documents.compactMap { queryDocumentSnapshot -> FireStorePlaylist? in
                 let data = queryDocumentSnapshot.data()
                 let userId = data["userId"] as? String ?? ""
+                let playlistId = queryDocumentSnapshot.documentID
                 let name = data["name"] as? String ?? ""
                 let likes = data["likes"] as? Int ?? 0
                 let createdAt = data["createdAt"] as? Date ?? Date()
-                return FireStorePlaylist(userId: userId, name: name, likes: likes, createdAt: createdAt)
+                return FireStorePlaylist(userId: userId,
+                                         playlistId: playlistId,
+                                         name: name, likes: likes,
+                                         createdAt: createdAt)
             }
-
-            completion(playlists)
+            completion(.success(playlists))
         }
     }
     

@@ -12,18 +12,50 @@ import Firebase
 extension HomeView {
     class HomeViewModel: ObservableObject {
         @Published var playlists: [Playlist]?
+        var fireStorePlaylists: [FireStorePlaylist]?
+        
+        let dispatchGroup = DispatchGroup()
 
         init() {
             FireStoreManager.shared.signIn()
-            setupUserPlaylists()
+            
+            getSpotifyPlaylists()
+            getFireStorePlaylists()
+            
+            dispatchGroup.notify(queue: .main) {
+                guard let playlists = self.playlists, let fireStorePlaylists = self.fireStorePlaylists else { return }
+                for playlist in playlists {
+                    if !(fireStorePlaylists.contains { $0.playlistId == playlist.id }) {
+                        FireStoreManager.shared.createFireStorePlaylist(playlist: playlist)
+                    }
+                }
+            }
+        }
+        
+        private func getFireStorePlaylists() {
+            dispatchGroup.enter()
+            
+            FireStoreManager.shared.getUserPlaylists { [weak self] result in
+                switch result {
+                case .success(let firePlaylists):
+                    self?.fireStorePlaylists = firePlaylists
+                    self?.dispatchGroup.leave()
+                case .failure(let error):
+                    print(error)
+                    break
+                }
+            }
         }
 
-        private func setupUserPlaylists() {
+        private func getSpotifyPlaylists() {
+            dispatchGroup.enter()
+            
             APICaller.shared.getUserPlaylists { [weak self] result in
                 switch result {
                 case .success(let playlists):
                     DispatchQueue.main.async {
                         self?.playlists = playlists
+                        self?.dispatchGroup.leave()
                     }
                     for (key, playlist) in playlists.enumerated() {
                         if playlist.images.count > 0 {
