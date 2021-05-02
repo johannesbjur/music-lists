@@ -7,6 +7,7 @@ target 'music-lists' do
 
   # Pods for music-lists
   pod 'Firebase/Firestore'
+  pod 'Firebase/Auth'
 
 
 end

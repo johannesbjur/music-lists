@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		67C820072451C2B07E5D5BFC /* Pods_music_lists.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99F75E86C3050E4E9AF5CF5C /* Pods_music_lists.framework */; };
 		8C22339026357E28000C9111 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8C22338F26357E28000C9111 /* GoogleService-Info.plist */; };
+		8C296EFF263EC12F00A1B4DB /* FireStoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C296EFE263EC12F00A1B4DB /* FireStoreManager.swift */; };
+		8C296F48263ECB6500A1B4DB /* FireStorePlaylist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C296F47263ECB6500A1B4DB /* FireStorePlaylist.swift */; };
 		8C70554225FD3A5F00754B3C /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C70554125FD3A5E00754B3C /* HomeView.swift */; };
 		8C70554525FD44AF00754B3C /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C70554425FD44AF00754B3C /* ProfileView.swift */; };
 		8C70554925FD44E800754B3C /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C70554825FD44E800754B3C /* MainTabView.swift */; };
@@ -39,6 +41,8 @@
 /* Begin PBXFileReference section */
 		2F201AE4CAEB361E1B35CCB4 /* Pods-music-lists.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-music-lists.debug.xcconfig"; path = "Target Support Files/Pods-music-lists/Pods-music-lists.debug.xcconfig"; sourceTree = "<group>"; };
 		8C22338F26357E28000C9111 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		8C296EFE263EC12F00A1B4DB /* FireStoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireStoreManager.swift; sourceTree = "<group>"; };
+		8C296F47263ECB6500A1B4DB /* FireStorePlaylist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireStorePlaylist.swift; sourceTree = "<group>"; };
 		8C70554125FD3A5E00754B3C /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		8C70554425FD44AF00754B3C /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		8C70554825FD44E800754B3C /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
@@ -148,6 +152,7 @@
 			children = (
 				8CD8D12F25F7A584004B0C36 /* AuthManager.swift */,
 				8CB856B6260F69B3002463D5 /* APICaller.swift */,
+				8C296EFE263EC12F00A1B4DB /* FireStoreManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -178,6 +183,7 @@
 				8CB856C72610BA42002463D5 /* ImageResponse.swift */,
 				8CB856C1260F9A19002463D5 /* Track.swift */,
 				8CB856F7261604EC002463D5 /* Playlist.swift */,
+				8C296F47263ECB6500A1B4DB /* FireStorePlaylist.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -320,9 +326,11 @@
 				8CB856BA260F69E5002463D5 /* UserProfile.swift in Sources */,
 				8CB856B7260F69B3002463D5 /* APICaller.swift in Sources */,
 				8CB856BE260F7CD5002463D5 /* ProfileViewModel.swift in Sources */,
+				8C296EFF263EC12F00A1B4DB /* FireStoreManager.swift in Sources */,
 				8CB856FB26160579002463D5 /* PlaylistItemCell.swift in Sources */,
 				8CB8570326174A29002463D5 /* PlaylistView.swift in Sources */,
 				8CB856C82610BA42002463D5 /* ImageResponse.swift in Sources */,
+				8C296F48263ECB6500A1B4DB /* FireStorePlaylist.swift in Sources */,
 				8CB8570F261A3997002463D5 /* TrackModalView.swift in Sources */,
 				8CB856CC26133E06002463D5 /* SearchView.swift in Sources */,
 				8C70554925FD44E800754B3C /* MainTabView.swift in Sources */,

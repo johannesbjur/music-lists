@@ -7,12 +7,14 @@
 
 import Foundation
 import UIKit
+import Firebase
 
 extension HomeView {
     class HomeViewModel: ObservableObject {
         @Published var playlists: [Playlist]?
 
         init() {
+            FireStoreManager.shared.signIn()
             setupUserPlaylists()
         }
 
