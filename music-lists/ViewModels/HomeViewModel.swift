@@ -11,7 +11,8 @@ import Firebase
 
 extension HomeView {
     class HomeViewModel: ObservableObject {
-        @Published var playlists: [Playlist]?
+        @Published var playlists: [Playlist]? = nil
+        var playlistsBuilder: [Playlist]?
         var fireStorePlaylists: [FireStorePlaylist]?
         
         let dispatchGroup = DispatchGroup()
@@ -23,10 +24,15 @@ extension HomeView {
             getFireStorePlaylists()
             
             dispatchGroup.notify(queue: .main) {
-                guard let playlists = self.playlists, let fireStorePlaylists = self.fireStorePlaylists else { return }
-                for playlist in playlists {
+                guard let playlists = self.playlistsBuilder, let fireStorePlaylists = self.fireStorePlaylists else { return }
+                for (index, playlist) in playlists.enumerated() {
                     if !(fireStorePlaylists.contains { $0.playlistId == playlist.id }) {
                         FireStoreManager.shared.createFireStorePlaylist(playlist: playlist)
+                    } else {
+                        guard let fireIndex = fireStorePlaylists.firstIndex(where: { $0.playlistId == playlist.id }) else { return }
+                        self.playlistsBuilder?[index].likes = fireStorePlaylists[fireIndex].likes
+//                        TODO: Look over issues with getuiImage
+                        self.playlists = self.playlistsBuilder
                     }
                 }
             }
@@ -54,14 +60,14 @@ extension HomeView {
                 switch result {
                 case .success(let playlists):
                     DispatchQueue.main.async {
-                        self?.playlists = playlists
+                        self?.playlistsBuilder = playlists
                         self?.dispatchGroup.leave()
                     }
                     for (key, playlist) in playlists.enumerated() {
                         if playlist.images.count > 0 {
                             self?.getPlaylistImage(url: playlist.images[0].url) { (image) in
                                 DispatchQueue.main.async {
-                                    self?.playlists?[key].uiImage = image
+                                    self?.playlistsBuilder?[key].uiImage = image
                                 }
                             }
                         }
@@ -70,7 +76,7 @@ extension HomeView {
                 case .failure(let error):
                     print(error)
                     DispatchQueue.main.async {
-                        self?.playlists = nil
+                        self?.playlistsBuilder = nil
                     }
                     break
                 }

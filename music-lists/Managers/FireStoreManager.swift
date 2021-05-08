@@ -69,4 +69,38 @@ final class FireStoreManager {
                         "createdAt": Date()
                     ])
     }
+    
+    func likePlaylist(playlistId: String) {
+        guard let userId = userId else { return }
+        db.collection("users").document(userId).setData([
+            "likedPlaylists": FieldValue.arrayUnion([playlistId])
+        ], merge: true)
+        
+        db.collection("playlists").document(playlistId).updateData([
+            "likes": FieldValue.increment(Int64(1))
+        ])
+    }
+    
+    func unlikePlaylist(playlistId: String) {
+        guard let userId = userId else { return }
+        db.collection("users").document(userId).setData([
+            "likedPlaylists": FieldValue.arrayRemove([playlistId])
+        ], merge: true)
+        
+        db.collection("playlists").document(playlistId).updateData([
+            "likes": FieldValue.increment(Int64(-1))
+        ])
+    }
+    
+    func getUserLiked(completion: @escaping (Result<[String], Error>) -> Void) {
+        guard let userId = userId else { return }
+        db.collection("users").document(userId).getDocument { (document, error) in
+            guard let likedPlaylists = document?.data()?["likedPlaylists"] as? [String], error == nil else {
+                print(error!)
+                completion(.failure(error!))
+                return
+            }
+            completion(.success(likedPlaylists))
+        }
+    }
 }

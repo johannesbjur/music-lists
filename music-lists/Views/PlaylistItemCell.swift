@@ -10,7 +10,15 @@ import SwiftUI
 struct PlaylistItemCell: View {
 
     var playlist: Playlist
-
+    @State var likeCount: Int
+    @State var liked: Bool = false
+    
+    init(playlist: Playlist) {
+        self.playlist = playlist
+        _likeCount = State(initialValue: playlist.likes)
+        print(playlist.id, playlist.name, playlist.likes)
+    }
+    
     var body: some View {
         HStack {
             if let uiImage = playlist.uiImage {
@@ -21,8 +29,28 @@ struct PlaylistItemCell: View {
             VStack {
                 Text(playlist.name)
                     .foregroundColor(.white)
-                Text("\(playlist.tracks.total)")
-                    .foregroundColor(.white)
+                HStack {
+                    Text("\(playlist.tracks.total)")
+                        .foregroundColor(.white)
+                    
+                    Button {
+                        liked.toggle()
+                        if liked {
+                            likeCount = likeCount + 1
+                            FireStoreManager.shared.likePlaylist(playlistId: playlist.id)
+                        } else {
+                            likeCount = likeCount - 1
+                            FireStoreManager.shared.unlikePlaylist(playlistId: playlist.id)
+                        }
+                    } label: {
+                        liked ? Image(systemName: "heart.fill").foregroundColor(.white)
+                              : Image(systemName: "heart").foregroundColor(.gray)
+                              
+                    }
+
+                    Text("\(likeCount)")
+                        .foregroundColor(.white)
+                }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
         }

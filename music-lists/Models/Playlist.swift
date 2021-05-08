@@ -14,6 +14,7 @@ struct Playlist: Decodable, Identifiable {
     let images: [ImageResponse]
     let tracks: TrackNr
     var uiImage: UIImage? = nil
+    var likes: Int = 0
 
     private enum CodingKeys: String, CodingKey {
         case id, name, images, tracks
