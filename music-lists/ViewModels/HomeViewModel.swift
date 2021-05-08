@@ -14,6 +14,7 @@ extension HomeView {
         @Published var playlists: [Playlist]? = nil
         var playlistsBuilder: [Playlist]?
         var fireStorePlaylists: [FireStorePlaylist]?
+        var likedPlaylists: [String]?
         
         let dispatchGroup = DispatchGroup()
 
@@ -22,10 +23,17 @@ extension HomeView {
             
             getSpotifyPlaylists()
             getFireStorePlaylists()
+            getLikedPlaylists()
             
             dispatchGroup.notify(queue: .main) {
-                guard let playlists = self.playlistsBuilder, let fireStorePlaylists = self.fireStorePlaylists else { return }
+                guard let playlists = self.playlistsBuilder,
+                      let fireStorePlaylists = self.fireStorePlaylists,
+                      let likedPlaylists = self.likedPlaylists else { return }
                 for (index, playlist) in playlists.enumerated() {
+                    if likedPlaylists.contains(where: { $0 == playlist.id }) {
+                        self.playlistsBuilder?[index].liked = true
+                    }
+                    
                     if !(fireStorePlaylists.contains { $0.playlistId == playlist.id }) {
                         FireStoreManager.shared.createFireStorePlaylist(playlist: playlist)
                     } else {
@@ -48,6 +56,7 @@ extension HomeView {
                     self?.dispatchGroup.leave()
                 case .failure(let error):
                     print(error)
+                    self?.dispatchGroup.leave()
                     break
                 }
             }
@@ -75,9 +84,25 @@ extension HomeView {
                     break
                 case .failure(let error):
                     print(error)
-                    DispatchQueue.main.async {
-                        self?.playlistsBuilder = nil
-                    }
+                    self?.playlistsBuilder = nil
+                    self?.dispatchGroup.leave()
+                    break
+                }
+            }
+        }
+        
+        private func getLikedPlaylists() {
+            dispatchGroup.enter()
+            
+            FireStoreManager.shared.getUserLiked { [weak self] result in
+                switch result {
+                case .success(let likedPlaylists):
+                    self?.likedPlaylists = likedPlaylists
+                    self?.dispatchGroup.leave()
+                case .failure(let error):
+                    print(error)
+                    self?.likedPlaylists = nil
+                    self?.dispatchGroup.leave()
                     break
                 }
             }

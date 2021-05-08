@@ -11,12 +11,12 @@ struct PlaylistItemCell: View {
 
     var playlist: Playlist
     @State var likeCount: Int
-    @State var liked: Bool = false
+    @State var liked: Bool
     
     init(playlist: Playlist) {
         self.playlist = playlist
         _likeCount = State(initialValue: playlist.likes)
-        print(playlist.id, playlist.name, playlist.likes)
+        _liked = State(initialValue: playlist.liked)
     }
     
     var body: some View {
