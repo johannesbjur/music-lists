@@ -11,6 +11,8 @@
 		8C22339026357E28000C9111 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8C22338F26357E28000C9111 /* GoogleService-Info.plist */; };
 		8C296EFF263EC12F00A1B4DB /* FireStoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C296EFE263EC12F00A1B4DB /* FireStoreManager.swift */; };
 		8C296F48263ECB6500A1B4DB /* FireStorePlaylist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C296F47263ECB6500A1B4DB /* FireStorePlaylist.swift */; };
+		8C296F5C2646CB1E00A1B4DB /* FlowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C296F5B2646CB1E00A1B4DB /* FlowView.swift */; };
+		8C296F602646CBC600A1B4DB /* FlowViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C296F5F2646CBC600A1B4DB /* FlowViewModel.swift */; };
 		8C70554225FD3A5F00754B3C /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C70554125FD3A5E00754B3C /* HomeView.swift */; };
 		8C70554525FD44AF00754B3C /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C70554425FD44AF00754B3C /* ProfileView.swift */; };
 		8C70554925FD44E800754B3C /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C70554825FD44E800754B3C /* MainTabView.swift */; };
@@ -43,6 +45,8 @@
 		8C22338F26357E28000C9111 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8C296EFE263EC12F00A1B4DB /* FireStoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireStoreManager.swift; sourceTree = "<group>"; };
 		8C296F47263ECB6500A1B4DB /* FireStorePlaylist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireStorePlaylist.swift; sourceTree = "<group>"; };
+		8C296F5B2646CB1E00A1B4DB /* FlowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowView.swift; sourceTree = "<group>"; };
+		8C296F5F2646CBC600A1B4DB /* FlowViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowViewModel.swift; sourceTree = "<group>"; };
 		8C70554125FD3A5E00754B3C /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		8C70554425FD44AF00754B3C /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		8C70554825FD44E800754B3C /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
@@ -99,6 +103,7 @@
 			children = (
 				8CB856FD261609D6002463D5 /* HomeViewModel.swift */,
 				8CB8570526174A53002463D5 /* PlaylistViewModel.swift */,
+				8C296F5F2646CBC600A1B4DB /* FlowViewModel.swift */,
 				8CB8570A26189506002463D5 /* SearchViewModel.swift */,
 				8CB856BD260F7CD5002463D5 /* ProfileViewModel.swift */,
 			);
@@ -166,6 +171,7 @@
 				8C70554825FD44E800754B3C /* MainTabView.swift */,
 				8C70554125FD3A5E00754B3C /* HomeView.swift */,
 				8CB8570226174A29002463D5 /* PlaylistView.swift */,
+				8C296F5B2646CB1E00A1B4DB /* FlowView.swift */,
 				8CB856CB26133E06002463D5 /* SearchView.swift */,
 				8C70554425FD44AF00754B3C /* ProfileView.swift */,
 				8CB856C42610B5C1002463D5 /* TrackItemCell.swift */,
@@ -323,6 +329,7 @@
 				8CD8D13925F7A5EA004B0C36 /* LoginView.swift in Sources */,
 				8CD8D13D25F7BE79004B0C36 /* AuthResponse.swift in Sources */,
 				8CB856C52610B5C1002463D5 /* TrackItemCell.swift in Sources */,
+				8C296F5C2646CB1E00A1B4DB /* FlowView.swift in Sources */,
 				8CB856BA260F69E5002463D5 /* UserProfile.swift in Sources */,
 				8CB856B7260F69B3002463D5 /* APICaller.swift in Sources */,
 				8CB856BE260F7CD5002463D5 /* ProfileViewModel.swift in Sources */,
@@ -333,6 +340,7 @@
 				8C296F48263ECB6500A1B4DB /* FireStorePlaylist.swift in Sources */,
 				8CB8570F261A3997002463D5 /* TrackModalView.swift in Sources */,
 				8CB856CC26133E06002463D5 /* SearchView.swift in Sources */,
+				8C296F602646CBC600A1B4DB /* FlowViewModel.swift in Sources */,
 				8C70554925FD44E800754B3C /* MainTabView.swift in Sources */,
 				8CD8D13525F7A5B9004B0C36 /* AuthWebView.swift in Sources */,
 				8CB856C2260F9A19002463D5 /* Track.swift in Sources */,

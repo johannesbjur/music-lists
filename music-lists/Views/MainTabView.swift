@@ -24,6 +24,14 @@ struct MainTabView: View {
                 Image(systemName: "house")
                 Text("Home")
             }
+            
+            NavigationView {
+                FlowView()
+            }
+            .tabItem {
+                Image(systemName: "music.note.list")
+                Text("Top Playlists")
+            }
 
             NavigationView {
                 SearchView()

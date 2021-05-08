@@ -40,7 +40,10 @@ extension HomeView {
                         guard let fireIndex = fireStorePlaylists.firstIndex(where: { $0.playlistId == playlist.id }) else { return }
                         self.playlistsBuilder?[index].likes = fireStorePlaylists[fireIndex].likes
 //                        TODO: Look over issues with getuiImage
-                        self.playlists = self.playlistsBuilder
+                        DispatchQueue.main.async {
+                            self.playlists = self.playlistsBuilder
+                        }
+                        
                     }
                 }
             }

@@ -66,6 +66,7 @@ final class FireStoreManager {
                         "userId": userId,
                         "name": playlist.name,
                         "likes": 0,
+                        "imageUrl": playlist.images[0].url,
                         "createdAt": Date()
                     ])
     }
@@ -117,6 +118,35 @@ final class FireStoreManager {
                 return
             }
             completion(.success(likedPlaylists))
+        }
+    }
+    
+    func getPlaylistFromDate(completion: @escaping (Result<[FireStorePlaylist], Error>) -> Void) {
+//        Get playlists from last 7 days
+        let date = Calendar.current.date(byAdding: .day, value: -7, to: Date()) ?? Date()
+        
+        db.collection("playlists").whereField("createdAt", isGreaterThan: date).getDocuments { (snapshots, error) in
+            guard let documents = snapshots?.documents, error == nil else {
+                print(error!)
+                completion(.failure(error!))
+                return
+            }
+            
+            var playlists: [FireStorePlaylist] = []
+            
+            playlists = documents.compactMap { queryDocumentSnapshot -> FireStorePlaylist? in
+                let data = queryDocumentSnapshot.data()
+                let userId = data["userId"] as? String ?? ""
+                let playlistId = queryDocumentSnapshot.documentID
+                let name = data["name"] as? String ?? ""
+                let likes = data["likes"] as? Int ?? 0
+                let createdAt = data["createdAt"] as? Date ?? Date()
+                return FireStorePlaylist(userId: userId,
+                                         playlistId: playlistId,
+                                         name: name, likes: likes,
+                                         createdAt: createdAt)
+            }
+            completion(.success(playlists))
         }
     }
 }
