@@ -27,7 +27,7 @@ final class AuthManager: ObservableObject {
     
     public var signInURL: URL? {
         let base = "\(Constants.baseURLString)/authorize"
-        let scopes = "user-read-private%20user-top-read%20playlist-read-private"
+        let scopes = "user-read-private%20user-top-read%20playlist-read-private%20playlist-modify-public%20playlist-modify-private"
         let string = "\(base)?response_type=code&client_id=\(Constants.clientID)&scope=\(scopes)&redirect_uri=\(Constants.redirectURI)&show_dialog=true"
         
         return URL(string: string)

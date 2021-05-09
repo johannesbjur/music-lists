@@ -151,6 +151,13 @@ extension APICaller {
             }.resume()
         }
     }
+    
+    func addTrackToPlaylist(trackId: String, playlistId: String) {
+        let url = URL(string: Constants.baseAPIUrl + "/playlists/\(playlistId)/tracks?uris=spotify%3Atrack%3A" + trackId)
+        createAuthRequest(with: url, method: .POST) { (baseRequest) in
+            URLSession.shared.dataTask(with: baseRequest).resume()
+        }
+    }
 
     func searchTracks(with string: String, completion: @escaping (Result<[Track], Error>) -> Void) {
         createAuthRequest(with: URL(string: Constants.baseAPIUrl + path.searchTracks.rawValue + string), method: .GET) { (baseRequest) in
