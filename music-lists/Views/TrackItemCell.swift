@@ -23,10 +23,12 @@ struct TrackItemCell: View {
             VStack {
                 Text(track.name)
                     .foregroundColor(.white)
+                    .bold()
                     .lineLimit(1)
                     .frame(maxWidth: .infinity, alignment: .leading)
                 Text(track.artists[0].name ?? "")
-                    .foregroundColor(.white)
+                    .foregroundColor(.gray)
+                    .bold()
                     .lineLimit(1)
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
