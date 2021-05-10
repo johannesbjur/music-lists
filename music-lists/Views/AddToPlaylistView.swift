@@ -27,9 +27,25 @@ struct AddToPlaylistView: View {
                                 presentationMode.wrappedValue.dismiss()
                                 viewModel.addToPlaylist(trackId: trackId, playlistId: playlist.id)
                             } label: {
-                                Text(playlist.name)
-                                    .foregroundColor(.white)
-                                    .padding(.bottom)
+                                HStack {
+                                    Image("placeholder_image")
+                                        .resizable()
+                                        .frame(width: 40, height: 40)
+                                    HStack {
+                                        VStack {
+                                            Text(playlist.name)
+                                                .foregroundColor(.white)
+                                                .bold()
+                                                .lineLimit(2)
+                                                .frame(maxWidth: .infinity, alignment: .leading)
+                                            Text("\(playlist.tracks.total) Tracks")
+                                                .foregroundColor(.gray)
+                                                .frame(maxWidth: .infinity, alignment: .leading)
+                                        }
+                                    }
+                                }
+                                .padding(.top, 20)
+                                .padding(.horizontal, 20)
                             }
                         }
                     }

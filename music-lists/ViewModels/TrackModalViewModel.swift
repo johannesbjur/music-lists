@@ -2,7 +2,7 @@
 //  TrackModalViewModel.swift
 //  music-lists
 //
-//  Created by Johannes Bjurströmer on 2021-05-09.
+//  Created by Johannes Bjurströmer on 2021-05-10.
 //
 
 import Foundation
@@ -10,8 +10,6 @@ import Foundation
 extension TrackModalView {
     class TrackModalViewModel: ObservableObject {
         
-        func addTrackToPlaylist(track: Track) {
-            
-        }
+        
     }
 }

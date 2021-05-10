@@ -19,6 +19,11 @@ struct TrackItemCell: View {
                     .resizable()
                     .frame(width: 40, height: 40)
                     .padding(.horizontal)
+            } else {
+                Image("placeholder_image")
+                    .resizable()
+                    .frame(width: 40, height: 40)
+                    .padding(.horizontal)
             }
             VStack {
                 Text(track.name)

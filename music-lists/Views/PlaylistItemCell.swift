@@ -10,6 +10,7 @@ import SwiftUI
 struct PlaylistItemCell: View {
 
     var playlist: Playlist
+    let hide: Bool = false
     @State var likeCount: Int
     @State var liked: Bool
     

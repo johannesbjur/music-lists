@@ -25,6 +25,10 @@ struct PlaylistView: View {
                     Image(uiImage: playlistImage)
                         .resizable()
                         .frame(width: 200, height: 200, alignment: .center)
+                } else {
+                    Image("placeholder_image")
+                        .resizable()
+                        .frame(width: 200, height: 200, alignment: .center)
                 }
                 Text(playlistName)
                     .foregroundColor(.white)
