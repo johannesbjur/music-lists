@@ -36,7 +36,7 @@ extension FlowView {
                 switch result {
                 case .success(let playlists):
                     DispatchQueue.main.async {
-                        self?.playlists = playlists
+                        self?.playlists = self?.bubbleSortPlaylists(playlists: playlists)
                     }
                     for (key, playlist) in playlists.enumerated() {
                         APICaller.shared.getImage(with: playlist.imageUrl) { [weak self] result in
@@ -75,6 +75,25 @@ extension FlowView {
                     break
                 }
             }
+        }
+        
+        private func bubbleSortPlaylists(playlists: [FireStorePlaylist]) -> [FireStorePlaylist] {
+            
+            var mutablePlaylists = playlists
+            var swap = true
+
+            while(swap) {
+                swap = false
+                for i in 1..<mutablePlaylists.count {
+                    if mutablePlaylists[i-1].likes < mutablePlaylists[i].likes  {
+                        let temp = mutablePlaylists[i-1]
+                        mutablePlaylists[i-1] = mutablePlaylists[i]
+                        mutablePlaylists[i] = temp
+                        swap = true
+                    }
+                }
+            }
+            return mutablePlaylists
         }
     }
 }
