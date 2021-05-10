@@ -15,13 +15,6 @@ struct HomeView: View {
             Color("black")
                 .ignoresSafeArea()
             VStack {
-//                Text("Home")
-//                    .foregroundColor(.white)
-//                    .font(.system(size: 34))
-//                    .fontWeight(.heavy)
-//                    .padding()
-//                    .frame(maxWidth: .infinity, alignment: .leading)
-
                 if let playlists = viewModel.playlists {
                     ScrollView {
                         ForEach(playlists) { playlist in
@@ -31,6 +24,8 @@ struct HomeView: View {
                                     playlistName: playlist.name))
                             {
                                 PlaylistItemCell(playlist: playlist)
+                                    .padding(.top, 15)
+                                    .padding(.horizontal, 30)
                             }
 
                         }

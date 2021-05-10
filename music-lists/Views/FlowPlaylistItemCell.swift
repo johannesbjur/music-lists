@@ -16,7 +16,10 @@ struct FlowPlaylistItemCell: View {
                 Image(uiImage: uiImage)
                     .resizable()
                     .frame(width: 100, height: 100)
-                
+            } else {
+                Image("placeholder_image")
+                    .resizable()
+                    .frame(width: 100, height: 100)
             }
             HStack {
                 VStack {
@@ -33,16 +36,16 @@ struct FlowPlaylistItemCell: View {
                 .padding(.leading, 20)
                 HStack {
                     if playlist.liked {
+                        Text(playlist.likes.description)
+                            .bold()
+                            .foregroundColor(.white)
                         Image(systemName: "heart.fill")
                             .foregroundColor(.white)
-                        Text(playlist.likes.description)
-                            .bold()
-                            .foregroundColor(.white)
                     } else {
-                        Image(systemName: "heart")
-                            .foregroundColor(.gray)
                         Text(playlist.likes.description)
                             .bold()
+                            .foregroundColor(.gray)
+                        Image(systemName: "heart")
                             .foregroundColor(.gray)
                     }
                 }

@@ -25,15 +25,24 @@ struct PlaylistItemCell: View {
                 Image(uiImage: uiImage)
                     .resizable()
                     .frame(width: 40, height: 40)
+            } else {
+                Image("placeholder_image")
+                    .resizable()
+                    .frame(width: 40, height: 40)
             }
-            VStack {
-                Text(playlist.name)
-                    .foregroundColor(.white)
-                    .lineLimit(2)
-                HStack {
-                    Text("\(playlist.tracks.total)")
+            HStack {
+                VStack {
+                    Text(playlist.name)
                         .foregroundColor(.white)
-                    
+                        .bold()
+                        .lineLimit(2)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    Text("\(playlist.tracks.total) Tracks")
+                        .foregroundColor(.gray)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }
+                .padding(.leading, 15)
+                HStack {
                     Button {
                         liked.toggle()
                         if liked {
@@ -44,14 +53,20 @@ struct PlaylistItemCell: View {
                             FireStoreManager.shared.unlikePlaylist(playlistId: playlist.id)
                         }
                     } label: {
-                        liked ? Image(systemName: "heart.fill").foregroundColor(.white)
-                              : Image(systemName: "heart").foregroundColor(.gray)
-                              
+                        if liked {
+                            Text("\(likeCount)")
+                                .foregroundColor(.white)
+                                .bold()
+                            Image(systemName: "heart.fill").foregroundColor(.white)
+                        } else {
+                            Text("\(likeCount)")
+                                .foregroundColor(.gray)
+                                .bold()
+                            Image(systemName: "heart").foregroundColor(.gray)
+                        }
                     }
-
-                    Text("\(likeCount)")
-                        .foregroundColor(.white)
                 }
+                .padding(.trailing, 20)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
         }
