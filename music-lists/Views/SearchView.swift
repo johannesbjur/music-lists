@@ -29,11 +29,14 @@ struct SearchView: View {
                 .padding()
                 .background(Color(.gray))
                 .cornerRadius(6)
-                .padding(.horizontal)
+                .padding(.horizontal, 20)
+                .padding(.top)
 
                 if let tracks = viewModel.searchedTracks {
                     ForEach(tracks) { track in
                         TrackItemCell(track: track)
+                            .padding(.top, 15)
+                            .padding(.horizontal, 20)
                     }
                 }
             }
