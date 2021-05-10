@@ -17,8 +17,10 @@ struct PlaylistView: View {
         ZStack {
             Color("black")
                 .ignoresSafeArea()
-//            TODO: should problably change to List for lazy load
+//            TODO: should problably change to List for lazy load?
             ScrollView {
+                Spacer()
+                    .frame(height: 120)
                 if let playlistImage = viewModel.playlistImage {
                     Image(uiImage: playlistImage)
                         .resizable()
@@ -26,9 +28,13 @@ struct PlaylistView: View {
                 }
                 Text(playlistName)
                     .foregroundColor(.white)
+                    .font(.system(size: 28, weight: .bold, design: .default))
+                    .padding()
                 if let tracks = viewModel.tracks {
                     ForEach(tracks) { track in
                         TrackItemCell(track: track)
+                            .padding(.top, 15)
+                            .padding(.horizontal, 20)
                     }
                 }
             }
@@ -36,6 +42,7 @@ struct PlaylistView: View {
         .onAppear {
             viewModel.getPlaylistTracks(playlistId: playlistId)
         }
+        .edgesIgnoringSafeArea(.all)
     }
 }
 

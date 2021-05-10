@@ -58,6 +58,7 @@ struct ProfileView: View {
                                     Text("\(i+1).")
                                         .foregroundColor(.white)
                                         .padding(.leading, 30)
+                                        .padding(.bottom, 15)
                                         
                                     TrackItemCell(track: tracks[i])
                                         .listRowBackground(Color("black"))
