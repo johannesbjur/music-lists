@@ -53,11 +53,13 @@ final class FireStoreManager {
                 let likes = data["likes"] as? Int ?? 0
                 let createdAt = data["createdAt"] as? Date ?? Date()
                 let imageUrl = data ["imageUrl"] as? String ?? ""
+                let tracks = data["tracks"] as? Int ?? 0
                 return FireStorePlaylist(userId: userId,
                                          playlistId: playlistId,
                                          name: name, likes: likes,
                                          createdAt: createdAt,
-                                         imageUrl: imageUrl)
+                                         imageUrl: imageUrl,
+                                         tracks: tracks)
             }
             completion(.success(playlists))
         }
@@ -73,7 +75,8 @@ final class FireStoreManager {
                         "name": playlist.name,
                         "likes": 0,
                         "imageUrl": imgUrl,
-                        "createdAt": Date()
+                        "createdAt": Date(),
+                        "tracks": playlist.tracks.total
                     ])
     }
     
@@ -159,11 +162,13 @@ final class FireStoreManager {
                 let likes = data["likes"] as? Int ?? 0
                 let createdAt = data["createdAt"] as? Date ?? Date()
                 let imageUrl = data["imageUrl"] as? String ?? ""
+                let tracks = data["tracks"] as? Int ?? 0
                 return FireStorePlaylist(userId: userId,
                                          playlistId: playlistId,
                                          name: name, likes: likes,
                                          createdAt: createdAt,
-                                         imageUrl: imageUrl)
+                                         imageUrl: imageUrl,
+                                         tracks: tracks)
             }
             completion(.success(playlists))
         }

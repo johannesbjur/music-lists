@@ -18,11 +18,15 @@ struct FlowView: View {
             if let playlists = viewModel.playlists {
                 ScrollView {
                     ForEach(playlists, id: \.name) { playlist in
-                        Text(playlist.name)
-                            .foregroundColor(.white)
+                        FlowPlaylistItemCell(playlist: playlist)
+                            .padding(.top, 20)
+                            .padding(.horizontal, 30)
                     }
                 }
             }
+        }
+        .onAppear {
+            viewModel.setup()
         }
         .navigationTitle("Top Playlists")
     }

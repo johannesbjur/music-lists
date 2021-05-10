@@ -29,6 +29,7 @@ struct PlaylistItemCell: View {
             VStack {
                 Text(playlist.name)
                     .foregroundColor(.white)
+                    .lineLimit(2)
                 HStack {
                     Text("\(playlist.tracks.total)")
                         .foregroundColor(.white)

@@ -16,8 +16,10 @@ struct FireStorePlaylist: Codable {
     let createdAt: Date
     let imageUrl: String
     var uiImage: UIImage? = nil
+    var liked: Bool = false
+    let tracks: Int
     
     private enum CodingKeys: String, CodingKey {
-        case userId, playlistId, name, likes, createdAt, imageUrl
+        case userId, playlistId, name, likes, createdAt, imageUrl, tracks
     }
 }

@@ -6,40 +6,72 @@
 //
 
 import Foundation
+import UIKit
 
 extension FlowView {
     class FlowViewModel: ObservableObject {
         @Published var playlists: [FireStorePlaylist]?
+        var likedPlaylists: [String]?
         
-        init() {
-            getTopPlaylists { [weak self] playlists in
-                
-                for (key, playlist) in playlists.enumerated() {
-
-//                    self?.getPlaylistImage(url: playlist.i) { (image) in
-//                        DispatchQueue.main.async {
-//                            self?.playlistsBuilder?[key].uiImage = image
-//                        }
-//                    }
-                    
-                }
-                
-                DispatchQueue.main.async {
-                    self?.playlists = playlists
+        let dispatchGroup = DispatchGroup()
+        
+        func setup() {
+            getTopPlaylists()
+            getLikedPlaylists()
+            
+            dispatchGroup.notify(queue: .main) {
+                guard let playlists = self.playlists else { return }
+                for (index, playlist) in playlists.enumerated() {
+                    if let likedPlaylists = self.likedPlaylists, likedPlaylists.contains(where: { $0 == playlist.playlistId }) {
+                        self.playlists?[index].liked = true
+                    }
                 }
             }
         }
         
-        func getTopPlaylists(completion: @escaping ([FireStorePlaylist]) -> Void) {
-            FireStoreManager.shared.getPlaylistFromDate { result in
+        private func getTopPlaylists() {
+            dispatchGroup.enter()
+            
+            FireStoreManager.shared.getPlaylistFromDate { [weak self] result in
                 switch result {
                 case .success(let playlists):
-                    print(playlists.count)
-                    completion(playlists)
+                    DispatchQueue.main.async {
+                        self?.playlists = playlists
+                    }
+                    for (key, playlist) in playlists.enumerated() {
+                        APICaller.shared.getImage(with: playlist.imageUrl) { [weak self] result in
+                            switch result {
+                            case .success(let imageData):
+                                DispatchQueue.main.async {
+                                    self?.playlists?[key].uiImage = UIImage(data: imageData)
+                                }
+                            case .failure(let error):
+                                print(error)
+                            }
+                        }
+                    }
+                    self?.dispatchGroup.leave()
                 case .failure(let error):
                     print(error)
-                    completion([])
-//                    self?.playlists = nil
+                    self?.playlists = []
+                    self?.dispatchGroup.leave()
+                    break
+                }
+            }
+        }
+        
+        private func getLikedPlaylists() {
+            dispatchGroup.enter()
+            
+            FireStoreManager.shared.getUserLiked { [weak self] result in
+                switch result {
+                case .success(let likedPlaylists):
+                    self?.likedPlaylists = likedPlaylists
+                    self?.dispatchGroup.leave()
+                case .failure(let error):
+                    print(error)
+                    self?.likedPlaylists = nil
+                    self?.dispatchGroup.leave()
                     break
                 }
             }
