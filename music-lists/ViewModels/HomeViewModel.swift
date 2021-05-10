@@ -26,24 +26,20 @@ extension HomeView {
             getLikedPlaylists()
             
             dispatchGroup.notify(queue: .main) {
-                guard let playlists = self.playlistsBuilder,
-                      let fireStorePlaylists = self.fireStorePlaylists,
-                      let likedPlaylists = self.likedPlaylists else { return }
+//                TODO: refactor
+                guard let playlists = self.playlistsBuilder else { return }
                 for (index, playlist) in playlists.enumerated() {
-                    if likedPlaylists.contains(where: { $0 == playlist.id }) {
+                    if let likedPlaylists = self.likedPlaylists, likedPlaylists.contains(where: { $0 == playlist.id }) {
                         self.playlistsBuilder?[index].liked = true
                     }
-                    
-                    if !(fireStorePlaylists.contains { $0.playlistId == playlist.id }) {
+                    if let fireStorePlaylists = self.fireStorePlaylists, !(fireStorePlaylists.contains { $0.playlistId == playlist.id }) {
                         FireStoreManager.shared.createFireStorePlaylist(playlist: playlist)
-                    } else {
+                    } else if let fireStorePlaylists = self.fireStorePlaylists {
                         guard let fireIndex = fireStorePlaylists.firstIndex(where: { $0.playlistId == playlist.id }) else { return }
                         self.playlistsBuilder?[index].likes = fireStorePlaylists[fireIndex].likes
-//                        TODO: Look over issues with getuiImage
-                        DispatchQueue.main.async {
-                            self.playlists = self.playlistsBuilder
-                        }
-                        
+                    }
+                    DispatchQueue.main.async {
+                        self.playlists = self.playlistsBuilder
                     }
                 }
             }
@@ -73,7 +69,6 @@ extension HomeView {
                 case .success(let playlists):
                     DispatchQueue.main.async {
                         self?.playlistsBuilder = playlists
-                        self?.dispatchGroup.leave()
                     }
                     for (key, playlist) in playlists.enumerated() {
                         if playlist.images.count > 0 {
@@ -84,6 +79,7 @@ extension HomeView {
                             }
                         }
                     }
+                    self?.dispatchGroup.leave()
                     break
                 case .failure(let error):
                     print(error)

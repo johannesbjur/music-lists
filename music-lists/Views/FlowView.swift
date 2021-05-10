@@ -24,6 +24,7 @@ struct FlowView: View {
                 }
             }
         }
+        .navigationTitle("Top Playlists")
     }
 }
 

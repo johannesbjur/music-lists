@@ -36,7 +36,9 @@ final class FireStoreManager {
         db.collection("playlists").whereField("userId", isEqualTo: userId ?? "").getDocuments { (snapshot, error) in
             guard let documents = snapshot?.documents, error == nil else {
                 print("No documents")
-                completion(.failure(error!))
+                if let error = error {
+                    completion(.failure(error))
+                }
                 return
             }
             
@@ -44,15 +46,18 @@ final class FireStoreManager {
             
             playlists = documents.compactMap { queryDocumentSnapshot -> FireStorePlaylist? in
                 let data = queryDocumentSnapshot.data()
+//                TODO: Create dictionary init
                 let userId = data["userId"] as? String ?? ""
                 let playlistId = queryDocumentSnapshot.documentID
                 let name = data["name"] as? String ?? ""
                 let likes = data["likes"] as? Int ?? 0
                 let createdAt = data["createdAt"] as? Date ?? Date()
+                let imageUrl = data ["imageUrl"] as? String ?? ""
                 return FireStorePlaylist(userId: userId,
                                          playlistId: playlistId,
                                          name: name, likes: likes,
-                                         createdAt: createdAt)
+                                         createdAt: createdAt,
+                                         imageUrl: imageUrl)
             }
             completion(.success(playlists))
         }
@@ -60,13 +65,14 @@ final class FireStoreManager {
     
     func createFireStorePlaylist(playlist: Playlist) {
         guard let userId = userId else { return }
+        let imgUrl = playlist.images.indices.contains(0) ? playlist.images[0].url : ""
         db.collection("playlists")
             .document(playlist.id)
             .setData([
                         "userId": userId,
                         "name": playlist.name,
                         "likes": 0,
-                        "imageUrl": playlist.images[0].url,
+                        "imageUrl": imgUrl,
                         "createdAt": Date()
                     ])
     }
@@ -74,20 +80,27 @@ final class FireStoreManager {
     func likePlaylist(playlistId: String) {
         guard let userId = userId else { return }
         db.collection("users").document(userId).getDocument { (document, error) in
-            guard let likedPlaylists = document?.data()?["likedPlaylists"] as? [String], error == nil else {
-                print(error!)
-                return
+            if let error = error {
+                print(error)
             }
-            if !likedPlaylists.contains(playlistId) {
-                self.db.collection("users").document(userId).setData([
-                    "likedPlaylists": FieldValue.arrayUnion([playlistId])
-                ], merge: true)
-        
-                self.db.collection("playlists").document(playlistId).updateData([
-                    "likes": FieldValue.increment(Int64(1))
-                ])
+            if document?.data()?["likedPlaylists"] as? [String] == nil {
+                self.likePlaylist(playlistId: playlistId, userId: userId)
+            }
+            if let likedPlaylists = document?.data()?["likedPlaylists"] as? [String],
+               !likedPlaylists.contains(playlistId) {
+                self.likePlaylist(playlistId: playlistId, userId: userId)
             }
         }
+    }
+    
+    private func likePlaylist(playlistId: String, userId: String) {
+        self.db.collection("users").document(userId).setData([
+            "likedPlaylists": FieldValue.arrayUnion([playlistId])
+        ], merge: true)
+        
+        self.db.collection("playlists").document(playlistId).updateData([
+            "likes": FieldValue.increment(Int64(1))
+        ])
     }
     
     func unlikePlaylist(playlistId: String) {
@@ -112,12 +125,15 @@ final class FireStoreManager {
     func getUserLiked(completion: @escaping (Result<[String], Error>) -> Void) {
         guard let userId = userId else { return }
         db.collection("users").document(userId).getDocument { (document, error) in
-            guard let likedPlaylists = document?.data()?["likedPlaylists"] as? [String], error == nil else {
-                print(error!)
-                completion(.failure(error!))
-                return
+            if let error = error {
+                print(error)
+                completion(.failure(error))
             }
-            completion(.success(likedPlaylists))
+            if let likedPlaylists = document?.data()?["likedPlaylists"] as? [String] {
+                completion(.success(likedPlaylists))
+            } else {
+                completion(.success([]))
+            }  
         }
     }
     
@@ -136,15 +152,18 @@ final class FireStoreManager {
             
             playlists = documents.compactMap { queryDocumentSnapshot -> FireStorePlaylist? in
                 let data = queryDocumentSnapshot.data()
+//                TODO: Create dictionary init
                 let userId = data["userId"] as? String ?? ""
                 let playlistId = queryDocumentSnapshot.documentID
                 let name = data["name"] as? String ?? ""
                 let likes = data["likes"] as? Int ?? 0
                 let createdAt = data["createdAt"] as? Date ?? Date()
+                let imageUrl = data["imageUrl"] as? String ?? ""
                 return FireStorePlaylist(userId: userId,
                                          playlistId: playlistId,
                                          name: name, likes: likes,
-                                         createdAt: createdAt)
+                                         createdAt: createdAt,
+                                         imageUrl: imageUrl)
             }
             completion(.success(playlists))
         }

@@ -12,16 +12,34 @@ extension FlowView {
         @Published var playlists: [FireStorePlaylist]?
         
         init() {
-            FireStoreManager.shared.getPlaylistFromDate { [weak self] result in
+            getTopPlaylists { [weak self] playlists in
+                
+                for (key, playlist) in playlists.enumerated() {
+
+//                    self?.getPlaylistImage(url: playlist.i) { (image) in
+//                        DispatchQueue.main.async {
+//                            self?.playlistsBuilder?[key].uiImage = image
+//                        }
+//                    }
+                    
+                }
+                
+                DispatchQueue.main.async {
+                    self?.playlists = playlists
+                }
+            }
+        }
+        
+        func getTopPlaylists(completion: @escaping ([FireStorePlaylist]) -> Void) {
+            FireStoreManager.shared.getPlaylistFromDate { result in
                 switch result {
                 case .success(let playlists):
                     print(playlists.count)
-                    DispatchQueue.main.async {
-                        self?.playlists = playlists
-                    }
+                    completion(playlists)
                 case .failure(let error):
                     print(error)
-                    self?.playlists = nil
+                    completion([])
+//                    self?.playlists = nil
                     break
                 }
             }

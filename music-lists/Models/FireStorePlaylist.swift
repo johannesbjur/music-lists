@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 struct FireStorePlaylist: Codable {
     let userId: String
@@ -13,4 +14,10 @@ struct FireStorePlaylist: Codable {
     let name: String
     let likes: Int
     let createdAt: Date
+    let imageUrl: String
+    var uiImage: UIImage? = nil
+    
+    private enum CodingKeys: String, CodingKey {
+        case userId, playlistId, name, likes, createdAt, imageUrl
+    }
 }
