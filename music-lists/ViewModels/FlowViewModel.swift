@@ -35,10 +35,11 @@ extension FlowView {
             FireStoreManager.shared.getPlaylistFromDate { [weak self] result in
                 switch result {
                 case .success(let playlists):
+                    guard let sortedPlaylists = self?.bubbleSortPlaylists(playlists: playlists) else { return }
                     DispatchQueue.main.async {
-                        self?.playlists = self?.bubbleSortPlaylists(playlists: playlists)
+                        self?.playlists = sortedPlaylists
                     }
-                    for (key, playlist) in playlists.enumerated() {
+                    for (key, playlist) in sortedPlaylists.enumerated() {
                         APICaller.shared.getImage(with: playlist.imageUrl) { [weak self] result in
                             switch result {
                             case .success(let imageData):
