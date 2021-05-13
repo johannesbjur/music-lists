@@ -14,6 +14,7 @@ struct ProfileView: View {
     }
 
     @StateObject var viewModel = ProfileViewModel()
+    @EnvironmentObject var authManager: AuthManager
 
     var body: some View {
         ZStack {
@@ -24,7 +25,7 @@ struct ProfileView: View {
                     HStack{
                         Spacer()
                         Button {
-                            print("signout")
+                            viewModel.signOut(authManager: authManager)
                         } label: {
                             Image(systemName: "square.and.arrow.up")
                                 .foregroundColor(.white)

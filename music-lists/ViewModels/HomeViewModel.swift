@@ -32,15 +32,17 @@ extension HomeView {
                     if let likedPlaylists = self.likedPlaylists, likedPlaylists.contains(where: { $0 == playlist.id }) {
                         self.playlistsBuilder?[index].liked = true
                     }
-                    if let fireStorePlaylists = self.fireStorePlaylists, !(fireStorePlaylists.contains { $0.playlistId == playlist.id }) {
-                        FireStoreManager.shared.createFireStorePlaylist(playlist: playlist)
-                    } else if let fireStorePlaylists = self.fireStorePlaylists {
-                        guard let fireIndex = fireStorePlaylists.firstIndex(where: { $0.playlistId == playlist.id }) else { return }
-                        self.playlistsBuilder?[index].likes = fireStorePlaylists[fireIndex].likes
-                    }
-                    DispatchQueue.main.async {
-                        self.playlists = self.playlistsBuilder
-                    }
+                    if let fireStorePlaylists = self.fireStorePlaylists {
+                        if let fireIndex = fireStorePlaylists.firstIndex(where: { $0.playlistId == playlist.id }) {
+                            self.playlistsBuilder?[index].likes = fireStorePlaylists[fireIndex].likes
+                        }
+                        if !(fireStorePlaylists.contains { $0.playlistId == playlist.id }) {
+                            FireStoreManager.shared.createFireStorePlaylist(playlist: playlist)
+                        }
+                    }   
+                }
+                DispatchQueue.main.async {
+                    self.playlists = self.playlistsBuilder
                 }
             }
         }

@@ -67,5 +67,10 @@ extension ProfileView {
                 }
             }
         }
+        
+        func signOut(authManager: AuthManager) {
+            FireStoreManager.shared.signOut()
+            authManager.signOut()
+        }
     }
 }

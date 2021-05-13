@@ -185,12 +185,10 @@ final class AuthManager: ObservableObject {
     }
 
     func signOut() {
-        //        let url = URL(string: "https://www.spotify.com/logout/")
-        //        let request = URLRequest(url: url)
-        //        UserDefaults.resetStandardUserDefaults()
-        //        URLSession.shared.dataTask(with: request) { _ in
-        //
-        //        }
+        let domain = Bundle.main.bundleIdentifier!
+        UserDefaults.standard.removePersistentDomain(forName: domain)
+        UserDefaults.standard.synchronize()
+        updateSignedIn()
     }
     
 }
