@@ -13,20 +13,22 @@ extension ProfileView {
         @Published var user: UserProfile?
         @Published var topTracks: [Track]?
         @Published var profileImage: UIImage?
+        
+        private var apiCallerService: APICallerProtocol
 
-        init() {
+        init(apiCallerService: APICallerProtocol = APICaller.shared) {
+            self.apiCallerService = apiCallerService
             setupUserData()
             setupTopTracks()
         }
 
         private func setupUserData() {
-            APICaller.shared.getCurrentUserProfile { [weak self] result in
+            apiCallerService.getCurrentUserProfile { [weak self] result in
                 switch result {
                 case .success(let user):
                     DispatchQueue.main.async {
                         self?.user = user
                     }
-    //                TODO: cache image
                     APICaller.shared.getUIImage(url: user.images[0].url) { [weak self] (image) in
                         DispatchQueue.main.async {
                             self?.profileImage = image
@@ -43,8 +45,8 @@ extension ProfileView {
             }
         }
 
-        private func setupTopTracks() {
-            APICaller.shared.getUserTopTracks { [weak self] result in
+        func setupTopTracks() {
+            apiCallerService.getUserTopTracks { [weak self] result in
                 switch result {
                 case .success(let tracks):
                     DispatchQueue.main.async {

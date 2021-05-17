@@ -20,6 +20,8 @@
 		8C70554225FD3A5F00754B3C /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C70554125FD3A5E00754B3C /* HomeView.swift */; };
 		8C70554525FD44AF00754B3C /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C70554425FD44AF00754B3C /* ProfileView.swift */; };
 		8C70554925FD44E800754B3C /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C70554825FD44E800754B3C /* MainTabView.swift */; };
+		8C7C3F5F2652806200952FD7 /* ProfileViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7C3F5E2652806200952FD7 /* ProfileViewModelTests.swift */; };
+		8C7C3F67265284DA00952FD7 /* MockAPICaller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7C3F66265284DA00952FD7 /* MockAPICaller.swift */; };
 		8CB856B7260F69B3002463D5 /* APICaller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CB856B6260F69B3002463D5 /* APICaller.swift */; };
 		8CB856BA260F69E5002463D5 /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CB856B9260F69E5002463D5 /* UserProfile.swift */; };
 		8CB856BE260F7CD5002463D5 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CB856BD260F7CD5002463D5 /* ProfileViewModel.swift */; };
@@ -44,6 +46,16 @@
 		8CD8D13D25F7BE79004B0C36 /* AuthResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CD8D13C25F7BE79004B0C36 /* AuthResponse.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		8C7C3F612652806200952FD7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8CD8D11225F7A532004B0C36 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8CD8D11925F7A532004B0C36;
+			remoteInfo = "music-lists";
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		2F201AE4CAEB361E1B35CCB4 /* Pods-music-lists.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-music-lists.debug.xcconfig"; path = "Target Support Files/Pods-music-lists/Pods-music-lists.debug.xcconfig"; sourceTree = "<group>"; };
 		8C22338F26357E28000C9111 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -58,6 +70,10 @@
 		8C70554125FD3A5E00754B3C /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		8C70554425FD44AF00754B3C /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		8C70554825FD44E800754B3C /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
+		8C7C3F5C2652806200952FD7 /* music-listsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "music-listsTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8C7C3F5E2652806200952FD7 /* ProfileViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModelTests.swift; sourceTree = "<group>"; };
+		8C7C3F602652806200952FD7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8C7C3F66265284DA00952FD7 /* MockAPICaller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAPICaller.swift; sourceTree = "<group>"; };
 		8CB856B6260F69B3002463D5 /* APICaller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICaller.swift; sourceTree = "<group>"; };
 		8CB856B9260F69E5002463D5 /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
 		8CB856BD260F7CD5002463D5 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
@@ -87,6 +103,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		8C7C3F592652806200952FD7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8CD8D11725F7A532004B0C36 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -104,6 +127,16 @@
 				99F75E86C3050E4E9AF5CF5C /* Pods_music_lists.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		8C7C3F5D2652806200952FD7 /* music-listsTests */ = {
+			isa = PBXGroup;
+			children = (
+				8C7C3F5E2652806200952FD7 /* ProfileViewModelTests.swift */,
+				8C7C3F602652806200952FD7 /* Info.plist */,
+				8C7C3F66265284DA00952FD7 /* MockAPICaller.swift */,
+			);
+			path = "music-listsTests";
 			sourceTree = "<group>";
 		};
 		8CB856BC260F7C66002463D5 /* ViewModels */ = {
@@ -124,6 +157,7 @@
 			isa = PBXGroup;
 			children = (
 				8CD8D11C25F7A532004B0C36 /* music-lists */,
+				8C7C3F5D2652806200952FD7 /* music-listsTests */,
 				8CD8D11B25F7A532004B0C36 /* Products */,
 				A504CF75500942BC9DE93F3D /* Pods */,
 				4DF67F0100C2B8ED6038B0D8 /* Frameworks */,
@@ -134,6 +168,7 @@
 			isa = PBXGroup;
 			children = (
 				8CD8D11A25F7A532004B0C36 /* music-lists.app */,
+				8C7C3F5C2652806200952FD7 /* music-listsTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -218,6 +253,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		8C7C3F5B2652806200952FD7 /* music-listsTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8C7C3F652652806200952FD7 /* Build configuration list for PBXNativeTarget "music-listsTests" */;
+			buildPhases = (
+				8C7C3F582652806200952FD7 /* Sources */,
+				8C7C3F592652806200952FD7 /* Frameworks */,
+				8C7C3F5A2652806200952FD7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8C7C3F622652806200952FD7 /* PBXTargetDependency */,
+			);
+			name = "music-listsTests";
+			productName = "music-listsTests";
+			productReference = 8C7C3F5C2652806200952FD7 /* music-listsTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		8CD8D11925F7A532004B0C36 /* music-lists */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8CD8D12925F7A534004B0C36 /* Build configuration list for PBXNativeTarget "music-lists" */;
@@ -243,9 +296,13 @@
 		8CD8D11225F7A532004B0C36 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1240;
+				LastSwiftUpdateCheck = 1250;
 				LastUpgradeCheck = 1240;
 				TargetAttributes = {
+					8C7C3F5B2652806200952FD7 = {
+						CreatedOnToolsVersion = 12.5;
+						TestTargetID = 8CD8D11925F7A532004B0C36;
+					};
 					8CD8D11925F7A532004B0C36 = {
 						CreatedOnToolsVersion = 12.4;
 					};
@@ -265,11 +322,19 @@
 			projectRoot = "";
 			targets = (
 				8CD8D11925F7A532004B0C36 /* music-lists */,
+				8C7C3F5B2652806200952FD7 /* music-listsTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		8C7C3F5A2652806200952FD7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8CD8D11825F7A532004B0C36 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -325,6 +390,15 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		8C7C3F582652806200952FD7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8C7C3F5F2652806200952FD7 /* ProfileViewModelTests.swift in Sources */,
+				8C7C3F67265284DA00952FD7 /* MockAPICaller.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8CD8D11625F7A532004B0C36 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -365,7 +439,57 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		8C7C3F622652806200952FD7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8CD8D11925F7A532004B0C36 /* music-lists */;
+			targetProxy = 8C7C3F612652806200952FD7 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		8C7C3F632652806200952FD7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				"HEADER_SEARCH_PATHS[arch=*]" = "\"${SRCROOT}/Pods/Firebase/CoreOnly/Sources\"";
+				INFOPLIST_FILE = "music-listsTests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "johannesbjur.music-listsTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/music-lists.app/music-lists";
+			};
+			name = Debug;
+		};
+		8C7C3F642652806200952FD7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				"HEADER_SEARCH_PATHS[arch=*]" = "\"${SRCROOT}/Pods/Firebase/CoreOnly/Sources\"";
+				INFOPLIST_FILE = "music-listsTests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "johannesbjur.music-listsTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/music-lists.app/music-lists";
+			};
+			name = Release;
+		};
 		8CD8D12725F7A534004B0C36 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -529,6 +653,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		8C7C3F652652806200952FD7 /* Build configuration list for PBXNativeTarget "music-listsTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8C7C3F632652806200952FD7 /* Debug */,
+				8C7C3F642652806200952FD7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		8CD8D11525F7A532004B0C36 /* Build configuration list for PBXProject "music-lists" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

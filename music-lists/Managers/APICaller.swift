@@ -8,7 +8,12 @@
 import Foundation
 import UIKit
 
-final class APICaller {
+protocol APICallerProtocol {
+    func getUserTopTracks(completion: @escaping (Result<[Track], Error>) -> Void)
+    func getCurrentUserProfile(completion: @escaping (Result<UserProfile, Error>) -> Void)
+}
+
+final class APICaller: APICallerProtocol {
     static let shared = APICaller()
 
     enum HTTPMethod: String {
