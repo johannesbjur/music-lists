@@ -59,6 +59,7 @@ struct AddToPlaylistView: View {
                 }
             }
         }
+        .navigationTitle("Add track to playlist")
         .edgesIgnoringSafeArea(.all)
     }
 }
