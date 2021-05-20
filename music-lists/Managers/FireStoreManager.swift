@@ -47,20 +47,7 @@ final class FireStoreManager {
             
             playlists = documents.compactMap { queryDocumentSnapshot -> FireStorePlaylist? in
                 let data = queryDocumentSnapshot.data()
-//                TODO: Create dictionary init
-                let userId = data["userId"] as? String ?? ""
-                let playlistId = queryDocumentSnapshot.documentID
-                let name = data["name"] as? String ?? ""
-                let likes = data["likes"] as? Int ?? 0
-                let createdAt = data["createdAt"] as? Date ?? Date()
-                let imageUrl = data ["imageUrl"] as? String ?? ""
-                let tracks = data["tracks"] as? Int ?? 0
-                return FireStorePlaylist(userId: userId,
-                                         playlistId: playlistId,
-                                         name: name, likes: likes,
-                                         createdAt: createdAt,
-                                         imageUrl: imageUrl,
-                                         tracks: tracks)
+                return FireStorePlaylist(dictionary: data, id: queryDocumentSnapshot.documentID)
             }
             completion(.success(playlists))
         }
@@ -156,20 +143,7 @@ final class FireStoreManager {
             
             playlists = documents.compactMap { queryDocumentSnapshot -> FireStorePlaylist? in
                 let data = queryDocumentSnapshot.data()
-//                TODO: Create dictionary init
-                let userId = data["userId"] as? String ?? ""
-                let playlistId = queryDocumentSnapshot.documentID
-                let name = data["name"] as? String ?? ""
-                let likes = data["likes"] as? Int ?? 0
-                let createdAt = data["createdAt"] as? Date ?? Date()
-                let imageUrl = data["imageUrl"] as? String ?? ""
-                let tracks = data["tracks"] as? Int ?? 0
-                return FireStorePlaylist(userId: userId,
-                                         playlistId: playlistId,
-                                         name: name, likes: likes,
-                                         createdAt: createdAt,
-                                         imageUrl: imageUrl,
-                                         tracks: tracks)
+                return FireStorePlaylist(dictionary: data, id: queryDocumentSnapshot.documentID)
             }
             completion(.success(playlists))
         }

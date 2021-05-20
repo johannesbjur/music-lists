@@ -23,3 +23,15 @@ struct FireStorePlaylist: Codable {
         case userId, playlistId, name, likes, createdAt, imageUrl, tracks
     }
 }
+
+extension FireStorePlaylist {
+    init(dictionary: [String: Any], id: String) {
+        self.playlistId = id
+        self.userId = dictionary["userId"] as? String ?? ""
+        self.name = dictionary["name"] as? String ?? ""
+        self.likes = dictionary["likes"] as? Int ?? 0
+        self.createdAt = dictionary["createdAt"] as? Date ?? Date()
+        self.imageUrl = dictionary["imageUrl"] as? String ?? ""
+        self.tracks = dictionary["tracks"] as? Int ?? 0        
+    }
+}
