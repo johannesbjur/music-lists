@@ -29,16 +29,24 @@ struct TrackModalView: View {
                                 .foregroundColor(.white)
                         }
                         .padding()
+                        .padding(.trailing)
                     }
                     
                     Spacer()
                         .frame(height: 100)
                     
                     VStack {
-                        Image("placeholder_image")
-                            .resizable()
-                            .frame(width: 150, height: 150, alignment: .center)
-                            .padding(.bottom, 70)
+                        if let uiImage = track?.uiImage {
+                            Image(uiImage: uiImage)
+                                .resizable()
+                                .frame(width: 150, height: 150, alignment: .center)
+                                .padding(.bottom, 70)
+                        } else {
+                            Image("placeholder_image")
+                                .resizable()
+                                .frame(width: 150, height: 150, alignment: .center)
+                                .padding(.bottom, 70)
+                        }
                         
                         Text(track?.name ?? "")
                             .foregroundColor(.white)

@@ -22,6 +22,16 @@ extension AddToPlaylistView {
                     DispatchQueue.main.async {
                         self?.playlists = playlists
                     }
+                    
+                    for (key, playlist) in playlists.enumerated() {
+                        if playlist.images.count > 0 {
+                            APICaller.shared.getUIImage(url: playlist.images[0].url) { image in
+                                DispatchQueue.main.async {
+                                    self?.playlists?[key].uiImage = image
+                                }
+                            }
+                        }
+                    }
                 case .failure(let error):
                 print(error)
                 self?.playlists = nil

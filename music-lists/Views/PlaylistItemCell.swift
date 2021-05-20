@@ -9,13 +9,12 @@ import SwiftUI
 
 struct PlaylistItemCell: View {
 
-    var playlist: Playlist
-    let hide: Bool = false
+    @State var playlist: Playlist
     @State var likeCount: Int
     @State var liked: Bool
     
     init(playlist: Playlist) {
-        self.playlist = playlist
+        _playlist = State(initialValue: playlist)
         _likeCount = State(initialValue: playlist.likes)
         _liked = State(initialValue: playlist.liked)
     }

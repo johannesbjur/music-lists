@@ -28,9 +28,16 @@ struct AddToPlaylistView: View {
                                 viewModel.addToPlaylist(trackId: trackId, playlistId: playlist.id)
                             } label: {
                                 HStack {
-                                    Image("placeholder_image")
-                                        .resizable()
-                                        .frame(width: 40, height: 40)
+                                    if let uiImage = playlist.uiImage {
+                                        Image(uiImage: uiImage)
+                                            .resizable()
+                                            .frame(width: 40, height: 40)
+                                    } else {
+                                        Image("placeholder_image")
+                                            .resizable()
+                                            .frame(width: 40, height: 40)
+                                    }
+                                    
                                     HStack {
                                         VStack {
                                             Text(playlist.name)

@@ -40,14 +40,9 @@ extension FlowView {
                         self?.playlists = sortedPlaylists
                     }
                     for (key, playlist) in sortedPlaylists.enumerated() {
-                        APICaller.shared.getImage(with: playlist.imageUrl) { [weak self] result in
-                            switch result {
-                            case .success(let imageData):
-                                DispatchQueue.main.async {
-                                    self?.playlists?[key].uiImage = UIImage(data: imageData)
-                                }
-                            case .failure(let error):
-                                print(error)
+                        APICaller.shared.getUIImage(url: playlist.imageUrl) { uiImage in
+                            DispatchQueue.main.async {
+                                self?.playlists?[key].uiImage = uiImage
                             }
                         }
                     }

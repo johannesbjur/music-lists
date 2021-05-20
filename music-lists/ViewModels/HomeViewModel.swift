@@ -21,6 +21,10 @@ extension HomeView {
         init() {
             FireStoreManager.shared.signIn()
             
+            setupPlaylists()
+        }
+        
+        func setupPlaylists() {
             getSpotifyPlaylists()
             getFireStorePlaylists()
             getLikedPlaylists()
@@ -39,7 +43,7 @@ extension HomeView {
                         if !(fireStorePlaylists.contains { $0.playlistId == playlist.id }) {
                             FireStoreManager.shared.createFireStorePlaylist(playlist: playlist)
                         }
-                    }   
+                    }
                 }
                 DispatchQueue.main.async {
                     self.playlists = self.playlistsBuilder
@@ -69,18 +73,17 @@ extension HomeView {
             APICaller.shared.getUserPlaylists { [weak self] result in
                 switch result {
                 case .success(let playlists):
-                    DispatchQueue.main.async {
-                        self?.playlistsBuilder = playlists
-                    }
+                    self?.playlistsBuilder = playlists
                     for (key, playlist) in playlists.enumerated() {
                         if playlist.images.count > 0 {
-                            self?.getPlaylistImage(url: playlist.images[0].url) { (image) in
+                            APICaller.shared.getUIImage(url: playlist.images[0].url){ image in
                                 DispatchQueue.main.async {
                                     self?.playlistsBuilder?[key].uiImage = image
                                 }
                             }
                         }
                     }
+                    
                     self?.dispatchGroup.leave()
                     break
                 case .failure(let error):
@@ -104,20 +107,6 @@ extension HomeView {
                     print(error)
                     self?.likedPlaylists = nil
                     self?.dispatchGroup.leave()
-                    break
-                }
-            }
-        }
-
-        private func getPlaylistImage(url: String, completion: @escaping (UIImage?) -> Void) {
-            APICaller.shared.getImage(with: url) { (result) in
-                switch result {
-                case .success(let imageData):
-                    completion(UIImage(data: imageData))
-                    break
-                case .failure(let error):
-                    print(error.localizedDescription)
-                    completion(nil)
                     break
                 }
             }
