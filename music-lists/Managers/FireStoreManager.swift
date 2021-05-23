@@ -18,7 +18,6 @@ final class FireStoreManager {
     }
     
     func signIn() {
-//        Auth.auth().signIn(withCustomToken: <#T##String#>, completion: <#T##((AuthDataResult?, Error?) -> Void)?##((AuthDataResult?, Error?) -> Void)?##(AuthDataResult?, Error?) -> Void#>)
         Auth.auth().signInAnonymously { (authResult, error) in
             guard let user = authResult?.user else { return }
             UserDefaults.standard.setValue(user.uid, forKey: "firestore_uid")

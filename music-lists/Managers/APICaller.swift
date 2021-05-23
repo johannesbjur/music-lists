@@ -62,7 +62,6 @@ extension APICaller {
                 }
                 do {
                     let result = try JSONDecoder().decode(UserProfile.self, from: data)
-//                    print(result)
                     completion(.success(result))
                 }
                 catch {
@@ -108,7 +107,6 @@ extension APICaller {
                 }
                 do{
                     let result = try JSONDecoder().decode(TracksResponseBody.self, from: data)
-//                    print(result)
                     completion(.success(result.items))
                 }
                 catch {
@@ -128,7 +126,6 @@ extension APICaller {
                 }
                 do{
                     let result = try JSONDecoder().decode(PlaylistsResponseBody.self, from: data)
-//                    print(result)
                     completion(.success(result.items))
                 }
                 catch {
@@ -147,7 +144,6 @@ extension APICaller {
                 }
                 do{
                     let result = try JSONDecoder().decode(PlaylistResponseBody.self, from: data)
-//                    print(result)
                     completion(.success(result))
                 }
                 catch {
@@ -172,7 +168,6 @@ extension APICaller {
                     return
                 }
                 do {
-//                    let result = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
                     let result = try JSONDecoder().decode(SearchResponseBody.self, from: data)
                     print(result)
 
