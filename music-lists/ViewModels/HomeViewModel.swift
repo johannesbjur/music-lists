@@ -30,7 +30,6 @@ extension HomeView {
             getLikedPlaylists()
             
             dispatchGroup.notify(queue: .main) {
-//                TODO: refactor
                 guard let playlists = self.playlistsBuilder else { return }
                 for (index, playlist) in playlists.enumerated() {
                     if let likedPlaylists = self.likedPlaylists, likedPlaylists.contains(where: { $0 == playlist.id }) {

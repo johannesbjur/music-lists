@@ -17,7 +17,6 @@ struct PlaylistView: View {
         ZStack {
             Color("black")
                 .ignoresSafeArea()
-//            TODO: should problably change to List for lazy load?
             ScrollView {
                 Spacer()
                     .frame(height: 120)
